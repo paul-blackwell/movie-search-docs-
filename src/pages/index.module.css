@@ -3,9 +3,14 @@
  * and scoped locally.
  */
 
-
 .main {
-  margin-top: 6rem;
+  margin: 3rem 0;
+}
+
+@media (min-width: 768px) { 
+  .main {
+    margin: 6rem 0;
+  }
 }
 
 .hero {
@@ -19,6 +24,42 @@
 .hero__image {
   width: 100%;
 }
+
+/* 3rem */
+ /* 1.5rem; */
+.hero__title {
+  font-size: 2rem;
+}
+
+.hero__subtitle {
+  font-size: 1.25rem;
+}
+
+@media (min-width: 768px) { 
+  .hero {
+     flex-direction: row;
+  }
+
+  .hero__title-container {
+    width: 50%;
+    padding-right: 1.5rem;
+  }
+
+  .hero__title {
+    font-size: 3rem;
+  }
+
+  .hero__subtitle {
+    font-size: 1.5rem;
+  }
+
+  .hero__image {
+    width: 50%;
+  }
+}
+
+
+
 
 .hero__button {
   margin-bottom: 5rem;

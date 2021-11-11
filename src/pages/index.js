@@ -13,8 +13,10 @@ export default function Home() {
     >
       <main className={styles.main}>
         <div className={styles.hero}>
-          <h1 className="hero__title">{siteConfig.title}</h1>
-          <p className="hero__subtitle">{siteConfig.tagline}</p>
+          <div className={styles['hero__title-container']}>
+          <h1 className={styles['hero__title']}>{siteConfig.title}</h1>
+          <p className={styles['hero__subtitle']}>{siteConfig.tagline}</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Feugiat pretium, posuere ultricies consequat vel.</p>
           <div className={styles['hero__button']}>
             <Link
               className="button button--secondary button--lg"
@@ -23,7 +25,8 @@ export default function Home() {
               Get started
             </Link>
           </div>
-          <img className={styles['hero__image']} src="/img/hero-1.png" alt="App screenshot" />
+          </div>
+          <img className={styles['hero__image']} src="/img/hero-2.png" alt="App screenshot" />
         </div>
       </main>
     </Layout>
