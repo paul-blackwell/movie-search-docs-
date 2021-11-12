@@ -2,11 +2,34 @@
 sidebar_position: 1
 ---
 
-# Tutorial Intro
+# Getting started
 
-Let's discover **Docusaurus in less than 5 minutes**.
+## Installing node
+If you haven’t already got Node you will need to download it as we will need it to 
+download all of the project dependencies, see **[link](https://nodejs.org/en/)**.
 
-## Getting Started
+## Accessing each lesson/unit
+
+The project is split up into multiple lessons called **units**, if you just want to 
+get a feel for the project clone the **[master branch](https://github.com/paul-blackwell/movie-search.git)**
+, this is what the project looks like after you finish every unit. If you want to dive 
+right in, clone the **[unit-1 branch](https://github.com/paul-blackwell/movie-search/tree/unit-1)**. 
+Each unit branch is accompanied by an answers branch (e.g. **unit-1**, **unit-1-answers**) so, 
+if you get stuck you can always compare your work to the answers branch.
+
+## Start your first unit
+After you have cloned unit-1, you will need to run the following commands to install 
+all of your dependencies and run the project.
+
+```shell
+npm install
+```
+
+```shell
+npm start
+```
+After running npm start will, you project will start on `http://localhost:3000`.
+
 
 Get started by **creating a new site**.
 
