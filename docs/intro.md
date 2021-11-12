@@ -11,11 +11,20 @@ download all of the project dependencies, see **[link](https://nodejs.org/en/)**
 ## Accessing each lesson/unit
 
 The project is split up into multiple lessons called **units**, if you just want to 
-get a feel for the project clone the **[master branch](https://github.com/paul-blackwell/movie-search.git)**
-, this is what the project looks like after you finish every unit. If you want to dive 
-right in, clone the **[unit-1 branch](https://github.com/paul-blackwell/movie-search/tree/unit-1)**. 
+get a feel for the project clone the **[master](https://github.com/paul-blackwell/movie-search.git)**
+branch, this is what the project looks like after you finish every unit. If you want to dive 
+right in, clone the **[unit-1](https://github.com/paul-blackwell/movie-search/tree/unit-1)** branch. 
 Each unit branch is accompanied by an answers branch (e.g. **unit-1**, **unit-1-answers**) so, 
 if you get stuck you can always compare your work to the answers branch.
+
+## Configuring ESlint
+Firstly, we strongly recommend using Visual Studio Code as your code editor for this project. 
+This will make setting up ESlint a lot easier.
+
+“ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code, 
+with the goal of making code more consistent and avoiding bugs.” – eslint.org
+
+
 
 ## Start your first unit
 After you have cloned unit-1, you will need to run the following commands to install 
