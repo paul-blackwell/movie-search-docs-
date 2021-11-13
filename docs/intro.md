@@ -18,13 +18,31 @@ Each unit branch is accompanied by an answers branch (e.g. **unit-1**, **unit-1-
 if you get stuck you can always compare your work to the answers branch.
 
 ## Configuring ESlint
-Firstly, we strongly recommend using Visual Studio Code as your code editor for this project. 
-This will make setting up ESlint a lot easier.
+Firstly, we strongly recommend using [Visual Studio Code](https://code.visualstudio.com/) as your 
+code editor for this project. This will make setting up [ESlint](https://eslint.org/) a lot easier.
 
-“ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code, 
-with the goal of making code more consistent and avoiding bugs.” – eslint.org
+> ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code, 
+with the goal of making code more consistent and avoiding bugs.– eslint.org
 
+You will need to install the [ESlint plugin](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) 
+for VScode, add the following code to your **settings.json** in VScode:
 
+```json
+}
+    "eslint.validate": [
+      "javascript",
+      "javascriptreact",
+    ],
+    "eslint.alwaysShowStatus": true,
+    "eslint.format.enable": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.formatOnSave": true,
+    "workbench.startupEditor": "none"
+}
+```
 
 ## Start your first unit
 After you have cloned unit-1, you will need to run the following commands to install 
@@ -40,28 +58,49 @@ npm start
 After running npm start will, you project will start on `http://localhost:3000`.
 
 
-Get started by **creating a new site**.
+## Component structure
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+This project uses [atomic design](https://bradfrost.com/blog/post/atomic-web-design/) by Brad Frost
+for its component structure, atomic design is methodology 
+for creating design systems. There are five distinct levels in atomic design:
 
-## Generate a new site
+-	Atoms
+-	Molecules
+-	Organisms
+-	Templates
+-	Pages
 
-Generate a new Docusaurus site using the **classic template**:
+### atoms
+> Atoms are the basic building blocks of matter. Applied to web interfaces, atoms are our HTML tags, such as a form label, an input or a button.
 
-```shell
-npm init docusaurus@latest my-website classic
-```
+For example the `ButtonPrimary` component:
 
-## Start your site
+![Button Primary component](/img/getting-started/atomic-design/atom.png)
 
-Run the development server:
+### molecules
+> Molecules are groups of atoms bonded together and are the smallest fundamental units of a compound. These molecules take on their own properties and serve as the backbone of our design systems.
 
-```shell
-cd my-website
+For example the `InputWithLabel` component:
 
-npx docusaurus start
-```
+![Input with Label component](/img/getting-started/atomic-design/molecule.png)
 
-Your site starts at `http://localhost:3000`.
+### organisms
+> Organisms are groups of molecules joined together to form a relatively complex, distinct section of an interface.
 
-Open `docs/intro.md` and edit some lines: the site **reloads automatically** and displays your changes.
+For example the `Search` component:
+
+![Search component](/img/getting-started/atomic-design/organism.png)
+
+### templates
+> Templates consist mostly of groups of organisms stitched together to form pages.
+
+For example the `Layout` component:
+
+![Layout component](/img/getting-started/atomic-design/template.png)
+
+### pages
+> Pages are specific instances of templates.
+
+For example the `Home`page:
+
+![Home page](/img/getting-started/atomic-design/page.png)
