@@ -4,6 +4,17 @@ sidebar_position: 1
 
 # Getting started
 
+## A quick note about the course
+
+In this course we will be making a small application that fetches data from the **[omdbapi API](http://www.omdbapi.com/)**, then show this data to the user and allow the user to save films to their favourites.
+
+The site map is as follows:
+
+![Site map diagram](/img/getting-started/site-map.png)
+
+This course expects you to have a small amount of prior knowledge on react, mainly concepts such as prop-drilling and how functional components work. We will mainly be covering more advanced topics such as **[Redux](https://redux.js.org/)** , **[React Router v6](https://reactrouter.com/)** and fetching data from the omdbapi API. This course also does not cover styling as is mainly focused on React, however how the styling works is documented further down on this page.
+
+
 ## Accessing each lesson/unit
 
 The project is split up into multiple lessons called **units**, if you just want to 
