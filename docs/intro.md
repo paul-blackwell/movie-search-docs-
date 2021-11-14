@@ -14,6 +14,11 @@ The site map is as follows:
 
 This course expects you to have a small amount of prior knowledge on react, mainly concepts such as prop-drilling and how functional components work. We will mainly be covering more advanced topics such as **[Redux](https://redux.js.org/)** , **[React Router v6](https://reactrouter.com/)** and fetching data from the omdbapi API. This course also does not cover styling as is mainly focused on React, however how the styling works is documented further down on this page.
 
+## Accessing the design files
+You can find the design for the project in the `/design` files folder, these contain the high/low fidelity prototypes for the application in `PDF` and in `.fig format`. The `.fig` format is a file format used by [Figma](https://figma.com/) a design and prototyping tool
+
+![Figma screenshot](/img/getting-started/figma-screenshot.png)
+
 
 ## Accessing each lesson/unit
 
