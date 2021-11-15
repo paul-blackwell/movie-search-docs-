@@ -10,7 +10,9 @@ Clone the **[unit-1](https://github.com/paul-blackwell/movie-search/tree/unit-1)
 
 ## useState
 
-In this unit we will cover the `useState` in React. The useState is a Hook that allows you to have state variables in functional components. Let’s first define our state in a functional component and then investigate what is going on.
+In this unit we will cover the `useState` hook in React. useState is a Hook that allows you to have state variables in functional components.Let’s first define our state in a functional component and then investigate what is going on.
+
+
 
 ```jsx
 import React, { useState } from 'react';
@@ -19,15 +21,15 @@ const Component = () => {
   const [clicked, setClicked] = useState(false);
 
   return (
-    <button>I been clicked:<button/>
+    <button>I have been clicked:<button/>
   )
 }
 ```
 
-The first part of the useState array is the state is self, in our case `clicked`. The second part of the array is a call-back function that allows us to change the value of our state `setClicked`. You can name this anything but it is conventionally named “set” with the name of your state. We can also pass a value into our useState hook, it’s a boolean, but it could also be a string, number etc.. This is the initial value of our state `clicked = false`.
+The first part of the `useState` array is the state is self, in our case `clicked`. The second part of the array is a call-back function that allows us to change the value of our state `setClicked`. You can name this anything but it is conventionally named “set” with the name of your state. It’s worth mentioning, using `useState` to create the variables like this, is an example of [array destructuring](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#array_destructuring). Next we pass a value into our useState hook, it’s a boolean in our case, but it could also be a string, number etc.. This is the initial value of our state `clicked = false`.
 
 
-Next let’s add an `onClick` to our button that changes the value of our state to `true`. We will also render the value of our `clicked` state.
+Now let’s add an `onClick` to our button that changes the value of our state to `true`. We will also render the value of our `clicked` state.
 
 ```jsx
 import React, { useState } from 'react';
@@ -38,7 +40,7 @@ const Component = () => {
   const handleClick = () => setClicked(true);
 
   return (
-    <button onClick={handleClick}>I been clicked: {useState}<button/>
+    <button onClick={handleClick}>I have been clicked: {useState}<button/>
   )
 }
 ```
@@ -62,7 +64,7 @@ const Component = () => {
     <button 
       className={`button ${clicked ? 'button--green' : 'button--red'}`} 
       onClick={handleClick}>
-        I been clicked: {useState}
+        I have been clicked: {useState}
     <button/>
   )
 }
