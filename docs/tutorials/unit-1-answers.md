@@ -42,9 +42,28 @@ Layout.propTypes = {
 
 export default Layout;
 ```
-Next let’s add an `onClick` event to our hamburger icon found in the `<Header />` component. However, if we want to dynamically change the icon based on the state later, we don't want the `onclick` to be directly on the icon, but instead on the `header__menu-icon-container` div. 
+Next let’s add an `onClick` event to our hamburger icon found in the `<Header />` component. We first need to define our `handleClick` function, this runs `setShowMobileNav` to whatever the current state `showMobileNav` isn’t, acting as a toggle. So, if the hamburger is clicked and our current state is false it will turn it to true. Its important to note that we get access to `showMobileNav` and `setShowMobileNav` because they are passed into our `<Header />` component as **[props](https://reactjs.org/docs/components-and-props.html)**.
 
 ```jsx
+const Header = ({ className, showMobileNav, setShowMobileNav }) => {
+  const handleClick = () => setShowMobileNav(!showMobileNav);
+  return (
+    <div className={`${styles.header} ${className}`}>
+      <div className={styles['header__top-container']}>
+        <Logo />
+        <div className={styles['header__menu-icon-container']}>
+          <FiMenu className={styles['header__menu-icon']} />
+        </div>
+      </div>
+    </div>
+  );
+};
+```
+
+After that we need to add the `onclick` event to our hamburger icon. However, if we want to dynamically change the icon based on the state later, we don't want the `onclick` to be directly on the icon, but instead on the `header__menu-icon-container` div.
+
+```jsx
+
 const Header = ({ className, showMobileNav, setShowMobileNav }) => {
   const handleClick = () => setShowMobileNav(!showMobileNav);
   return (
@@ -58,4 +77,5 @@ const Header = ({ className, showMobileNav, setShowMobileNav }) => {
     </div>
   );
 };
+
 ```
