@@ -79,3 +79,43 @@ const Header = ({ className, showMobileNav, setShowMobileNav }) => {
 };
 
 ```
+
+## The extra challenge answer
+
+When the navigation is open, we want to update the hamburger menu icon to show as a cross. First we are going to import `<FiX />` component from [react-icons](https://react-icons.github.io/react-icons/icons?name=fi), this will be our cross icon. Then we are going to use a [ternary operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator) to render the `<FiX />` component (close icon) if `showMobileNav` is true. If `showMobileNav` is not true we will render the `<FiMenu />` component (hamburger icon) instead.
+
+```jsx
+import React from 'react';
+import PropTypes from 'prop-types';
+import { FiMenu, FiX } from 'react-icons/fi';
+import styles from './header.module.scss';
+import Logo from '../../molecules/logo/logo';
+
+const Header = ({ className, showMobileNav, setShowMobileNav }) => {
+  const handleClick = () => setShowMobileNav(!showMobileNav);
+  return (
+    <div className={`${styles.header} ${className}`}>
+      <div className={styles['header__top-container']}>
+        <Logo />
+        <div onClick={handleClick} className={styles['header__menu-icon-container']}>
+          {showMobileNav
+            ? <FiX className={styles['header__menu-icon']} />
+            : <FiMenu className={styles['header__menu-icon']} />}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+Header.propTypes = {
+  className: PropTypes.string,
+  showMobileNav: PropTypes.bool.isRequired,
+  setShowMobileNav: PropTypes.func.isRequired,
+};
+
+Header.defaultProps = {
+  className: '',
+};
+
+export default Header;
+```
