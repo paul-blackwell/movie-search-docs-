@@ -115,7 +115,7 @@ In the project the `Nav` component is hidden on mobile screens and a hamburger m
 ![Two screenshots of the mobile navigation ](/img/unit-1/nav-toggle.png)
 
 Things to consider: 
--	The CSS classes that shows and hides the `<Nav />` are `.nav—show` and `.nav—hide` and will need to be added to the `<Nav />` component.
+-	The CSS class that shows the `<Nav />` is `.nav—show` and will need to be added to the `<Nav />` component.
 -	The hamburger icon is found in the `<Header />` component and the icon itself is called `<FiMenu />`, you will need to add an `onclick` to this icon. 
 -	Lastly, you will need to set your state in the `<Layout />` component and pass down your state to the `<Header />` and `<Nav />` components as props.
 

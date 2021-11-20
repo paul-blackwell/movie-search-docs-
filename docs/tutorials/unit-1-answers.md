@@ -9,7 +9,7 @@ sidebar_position: 2
 Clone the **[unit-1-answers](https://github.com/paul-blackwell/movie-search/tree/unit-1-anwsers)**, branch to get the answers to unit-1.
 
 ## Answer
-Firstly, we need to define our state in the parent component `<Layout />` and pass it down to the child components. We need to do this because we need both the children to access the state. The `<Header />` will need to update the state and display a hamburger or cross icon depending on what the state is and the `<Nav />` will need the state to toggle between two CSS classes to be shown or hidden. Lets call our initial state `showMobileNav` and our setState to be `setMobileNav`. As we don’t want to display our navigation unless the user clicks on the hamburger icon, we are going to set our initial state to `false`.
+Firstly, we need to define our state in the parent component `<Layout />` and pass it down to the child components. We need to do this because we need both the children to access the state. The `<Header />` will need to update the state and display a hamburger or cross icon depending on what the state is and the `<Nav />` will need the state to toggle a CSS class to be shown or be hidden. Lets call our initial state `showMobileNav` and our setState to be `setMobileNav`. As we don’t want to display our navigation unless the user clicks on the hamburger icon, we are going to set our initial state to `false`.
 
 ```jsx
 import React, { useState } from 'react';
@@ -79,6 +79,30 @@ const Header = ({ className, showMobileNav, setShowMobileNav }) => {
 };
 
 ```
+Lastly, we want to add or remove the `.nav--show` class from the `<Nav />` component depending on what our showMobileNav state is. To do this we will use a **[ternary operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator)** to set our `<Nav />` className to `nav--show` if `showMobileNav` is true, if not true will set it to an empty string. This is what will show and hide our `<Nav />` component on mobile.
+
+``` jsx
+const Nav = ({ className, showMobileNav }) => (
+  <nav className={`${styles.nav} ${className} ${showMobileNav ? styles['nav--show'] : ''}`}>
+    <ul className={styles.nav__list}>
+      <li className={styles.nav__item}>
+        <a className={styles['nav__link--active']} href="#">
+          <FiCompass className={styles.nav__icon} />
+          Browse
+        </a>
+      </li>
+      <li className={styles.nav__item}>
+        <a className={styles.nav__link} href="#">
+          <FiHeart className={styles.nav__icon} />
+          Favorites
+        </a>
+      </li>
+    </ul>
+    <CallToAction />
+  </nav>
+);
+```
+
 
 ## The extra challenge answer
 
