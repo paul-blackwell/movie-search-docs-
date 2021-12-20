@@ -29,7 +29,7 @@ useEffect(callback[, dependencies]);
 
 Lets start by just using the callback function in useEffect. This example will update the document title to 
 "The checkbox is checked" or to "The checkbox is unchecked" every time the component is updated, remember when we update 
-our state (`setChecked`) the component will update/re-render. When it does to that our callback function in our `useEffect`
+our state (`setChecked`) the component will update/re-render. When it does do that our callback function in our `useEffect`
  hook will update the document title.
 
 ```jsx
@@ -60,8 +60,8 @@ function Example() {
 
 Now lets say we wanted to only update the document title when our checkbox is updated, but now we have some other 
 state in our component (`setCount`) that will update our component as well. So we now only want to update the document title
-if `checked` is updated not when `count` is updated. We can do this by passing in `checked` into are array of dependencies, now 
-when `checked` is updated the document title will now be changed to "The checkbox is checked" or "The checkbox is unchecked".
+if `checked` is updated not when `count` is updated. We can do this by passing in `checked` into are array of dependencies in our use effect, 
+now when `checked` is updated the document title will now be changed to "The checkbox is checked" or "The checkbox is unchecked".
 
 ```js
   useEffect(() => {
@@ -99,3 +99,94 @@ function Example() {
 }
 
 ```
+
+## Task
+
+In this weeks task we will be using `useEffect` in a bit of an abstract way. However, don't worry if you
+don't fully understand the `useEffect` hook after this tutorial we will be going over it again in the future.
+Let start by looking at the app, this week we are going to be working on the home page pagination.
+
+![Screenshots of the home screen](/img/unit-2/pagination-4-cards.png)
+
+Navigate to `popular-section.jsx` in your code. The code should be as follows:
+
+``` jsx
+
+const PopularSection = ({ className, movies }) => {
+  // This will give us the width of the viewport every time the window size changes
+  const { width } = useWindowDimensions();
+  console.log(width);
+
+  return (
+    <section className={`${styles['popular-section']} ${className}`}>
+      <div className={styles['popular-section__title']}>
+        <SecondaryHeading className={styles['popular-section__secondary-heading']}>Popular on MovieSearch</SecondaryHeading>
+        <div className={styles['popular-section__pagination-buttons']}>
+          <PaginationButtons
+            next={() => console.log('next was clicked')}
+            previous={() => console.log('previous was clicked')}
+            disableLeft
+            disableRight={false}
+          />
+        </div>
+      </div>
+      <div className={styles['popular-section__cards']}>
+        <Card movie={movies.popular[0]} />
+        <Card movie={movies.popular[1]} />
+        <Card movie={movies.popular[2]} />
+        <Card movie={movies.popular[3]} />
+      </div>
+    </section>
+  );
+};
+
+PopularSection.propTypes = {
+  className: PropTypes.string,
+  movies: PropTypes.arrayOf.isRequired,
+};
+
+PopularSection.defaultProps = {
+  className: '',
+};
+
+export default PopularSection;
+
+```
+
+For now don't worry about ` useWindowDimensions()` it is a custom hook that allows us
+to find out the width and height over the view port if it changes. However, our main
+problem is that this code renders only four of our movie cards. If we had 10, 20, or 50 of them
+this wouldn't be a good way of rendering our movies cards.
+
+``` jsx
+
+<div className={styles['popular-section__cards']}>
+  <Card movie={movies.popular[0]} />
+  <Card movie={movies.popular[1]} />
+  <Card movie={movies.popular[2]} />
+  <Card movie={movies.popular[3]} />
+</div>
+
+```
+
+Lets change this code to dynamically render our movie cards, to this we will need to use
+the [map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map) method.
+However, in React when we transform arrays into lists of elements we need to add a [key](https://reactjs.org/docs/lists-and-keys.html) 
+to each item.
+
+> Keys help React identify which items have changed, are added, or are removed. Keys should be given to the elements inside the array to give the elements a stable identity:
+
+In our chase the `movies.popular` array is an array of objects and each object has an `imdbID` ID that is unique so lets use that.
+Our code should look something like this:
+
+``` jsx
+
+<div className={styles['popular-section__cards']}>
+  {paginatedMovies.map((movie) => (
+    <Card movie={movie} key={movie.imdbID} />
+  ))}
+</div>
+
+```
+
+Now we have new problem, 
