@@ -1,5 +1,5 @@
 ---
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 # Unit-2 (an intro into useEffect)
@@ -189,4 +189,6 @@ Our code should look something like this:
 
 ```
 
-Now we have new problem, 
+Now we have new problem, if there is not enough space on the screen the cards will stack.
+In our design we don't want this to happen but instead we want our cards to be displayed 
+in one row and the amount of card displayed will change depending on the screen size.
