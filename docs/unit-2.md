@@ -189,6 +189,21 @@ Our code should look something like this:
 
 ```
 
-Now we have new problem, if there is not enough space on the screen the cards will stack.
+Now we have new problem, if there is not enough space on the screen the cards will stack,
+even on different screen sizes.
+
+![Screenshots of the home screen at 1280 pixels](/img/unit-2/pagination-cards-1280.png)
+
+![Screenshots of the home screen at 1040 pixels](/img/unit-2/pagination-cards-1040.png)
+
+![Screenshots of the home screen at 768 pixels](/img/unit-2/pagination-cards-768.png)
+
+![Screenshots of the home screen on mobile](/img/unit-2/pagination-cards-mobile.png)
+
+
 In our design we don't want this to happen but instead we want our cards to be displayed 
 in one row and the amount of card displayed will change depending on the screen size.
+Note CSS will handle our columns for us but we will need to stop the cards from stacking,
+for that we will need to get React to do this for us.
+
+
