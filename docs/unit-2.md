@@ -153,7 +153,7 @@ export default PopularSection;
 
 ```
 
-For now don't worry about ` useWindowDimensions()` it is a custom hook that allows us
+For now don't worry about `useWindowDimensions()` it is a custom hook that allows us
 to find out the width and height over the view port if it changes. However, our main
 problem is that this code renders only four of our movie cards. If we had 10, 20, or 50 of them
 this wouldn't be a good way of rendering our movies cards.
@@ -180,13 +180,11 @@ In our chase the `movies.popular` array is an array of objects and each object h
 Our code should look something like this:
 
 ``` jsx
-
 <div className={styles['popular-section__cards']}>
   {paginatedMovies.map((movie) => (
     <Card movie={movie} key={movie.imdbID} />
   ))}
 </div>
-
 ```
 
 Now we have new problem, if there is not enough space on the screen the cards will stack,
@@ -204,6 +202,38 @@ even on different screen sizes.
 In our design we don't want this to happen but instead we want our cards to be displayed 
 in one row and the amount of card displayed will change depending on the screen size.
 Note CSS will handle our columns for us but we will need to stop the cards from stacking,
-for that we will need to get React to do this for us.
+for that we will need to get React to do this for us. Luckily we have the `useWindowDimensions()`
+custom hook that will allows us to get the view port size every time the user updates it.
 
 
+## Task
+
+Your task is to build the pagination for the `<PopularSection />` component, you will need to 
+show the following cards on these screen sizes:
+
+- 1280px >  4 cards
+- 1040px   >  3 cards
+- 768px    >  2 cards
+- under 768px we don't want to have any pagination 
+
+Lastly, the `<PaginationButtons>` component will allow the user to load more cards
+onto the page.
+
+![Screenshots of pagination buttons](/img/unit-2/pagination-buttons.png)
+
+The props `next` and `previous` both except functions, this allows you to update
+your pagination when the user clicks on one of the buttons. If the the ` disableLeft`
+or the `disableRight` prop is true this will hide the button text and disable the
+button so the user can't click on it.
+
+```jsx
+<PaginationButtons
+  next={() => console.log('next was clicked')}
+  previous={() => console.log('previous was clicked')}
+  disableLeft
+  disableRight={false}
+/>
+```
+
+If you get stuck or get overwhelmed remember you can always get the answer for this task
+on the [unit-2-answers](/docs/unit-2) page.
