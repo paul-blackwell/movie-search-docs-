@@ -203,7 +203,7 @@ In our design we don't want this to happen but instead we want our cards to be d
 in one row and the amount of card displayed will change depending on the screen size.
 Note CSS will handle our columns for us but we will need to stop the cards from stacking,
 for that we will need to get React to do this for us. Luckily we have the `useWindowDimensions()`
-custom hook that will allows us to get the view port size every time the user updates it.
+custom hook that will allow us to get the view port size every time the user updates it.
 
 
 ## Task
