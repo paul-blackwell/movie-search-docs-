@@ -8,7 +8,7 @@ sidebar_position: 5
 
 Clone the **[unit-2-answers](https://github.com/paul-blackwell/movie-search/tree/unit-2-anwsers)**, branch to get the answers to unit-2.
 
-## Answer​
+## Answer
 
 ### cardsToShow
 First things first, we will start by defining our `cardsToShow` function, this will return the number of cards we need to
