@@ -16,7 +16,8 @@ export default function Home() {
           <div className={styles['hero__title-container']}>
           <h1 className={styles['hero__title']}>{siteConfig.title}</h1>
           <p className={styles['hero__subtitle']}>{siteConfig.tagline}</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Feugiat pretium, posuere ultricies consequat vel.</p>
+          <p>This is the documentation for <a href="http://movie-search.paulblackwell.io/">MovieSearch</a>, a free tutorial app designed to help
+          developers improve their React skills.</p>
           <div className={styles['hero__button']}>
             <Link
               className="button button--secondary button--lg"
