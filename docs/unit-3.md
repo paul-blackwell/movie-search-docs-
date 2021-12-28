@@ -35,11 +35,11 @@ Wouldn't it be a good idea is we had some sort of global state that acted like a
 
 :::note
 
-Why not use the context API over Redux?
+### Why not use the context API over Redux?
 
 To cut a long story sort context API is a lot easier to set up and has a lot less boilerplate code however,
 
-Redux has@
+Redux has:
 - Consistent architectural patterns
 - Debugging capabilities
 - Middleware
@@ -58,3 +58,10 @@ It was mainly created to solve the THREE MAJOR ISSUES with Redux:
 - Configuring a Redux store is too complicated
 - Have to add a lot of packages to build a large scale application
 - Redux requires too much boilerplate code which makes it cumbersome to write efficient and clean code.
+
+
+### What we are going to implement 
+
+For this project we are going to use **[Redux Toolkit](https://redux-toolkit.js.org/tutorials/quick-start)** because we want to make use of all the advantages Redux has over the Context api but not have deal with the unnecessary boilerplate code that comes with Redux. Before we do that have a look at the diagram bellow showing the difference between prop-drilling and Redux Tool kit, just to 100% make sure you understand the difference.
+
+![Prop-drilling vs Redux diagram](/img/unit-3/diagram.png)
