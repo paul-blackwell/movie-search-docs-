@@ -101,7 +101,32 @@ export const store = configureStore({
 
 ```
 
-### Provide the Redux Store to React
+### Providing the Redux Store to React
 
-Now our store has been created, we can make it available to our React components by putting a React-Redux `<Provider>` around our application. The Redux store that was created has been imported into the , put a `<Provider>` around your `<App>`, and pass the store as a prop:
+Now our store has been created, we can make it available to our React components by putting a React-Redux `<Provider>` around our application (in our index.js file). The Redux store that was created is then passed into the `<Provider>`. The `<App>` is passed into the `<Provider>` as a child, this means that the `App` no has access to the store.
 
+``` jsx
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { store } from './store';
+import App from './App';
+
+ReactDOM.render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </React.StrictMode>,
+  document.getElementById('root'),
+);
+
+```
+
+### Creating a Redux State Slice
+
+In `reducers/favorites/favoritesSlice.js` the following code sets up our initial state (an empty array), 
+
+
+> createSlice(): accepts an object of reducer functions, a slice name, and an initial state value, and automatically generates a slice reducer with corresponding action creators and action types.
