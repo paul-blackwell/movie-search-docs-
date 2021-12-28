@@ -2,7 +2,7 @@
 sidebar_position: 6
 ---
 
-# Unit-3 (setting up Redux)
+# Unit-3 (setting up Redux Toolkit)
 
 ## Accessing the Unit-3 tutorial 
 
@@ -65,3 +65,43 @@ It was mainly created to solve the THREE MAJOR ISSUES with Redux:
 For this project we are going to use **[Redux Toolkit](https://redux-toolkit.js.org/tutorials/quick-start)** because we want to make use of all the advantages Redux has over the Context api but not have deal with the unnecessary boilerplate code that comes with Redux. Before we do that have a look at the diagram bellow showing the difference between prop-drilling and Redux Tool kit, just to 100% make sure you understand the difference.
 
 ![Prop-drilling vs Redux diagram](/img/unit-3/diagram.png)
+
+## Setting up our global state
+
+The unit **[unit-3](https://github.com/paul-blackwell/movie-search/tree/unit-3)** was everything we need already set up, however lets walk though
+the code to see whats going on.
+
+:::info
+
+Redux DevTools extension
+
+Redux Toolkit should automatically configure the Redux DevTools extension, however if you haven't already got it installed you will need to do so using the following link **[Redux DevTools extension](https://chrome.google.com/webstore/detail/redux-devtools)**. We will be using this extension later on in this unit.
+
+:::
+
+The following files have been added.
+
+![Prop-drilling vs Redux diagram](/img/unit-3/unit-3-files.png)
+
+### Creating the Redux store
+
+In `store.js` the following code has been added, This creates a Redux store, and also automatically configure the Redux DevTools extension so that we can inspect the store while developing.
+
+```jsx
+
+/* eslint-disable import/prefer-default-export */
+import { configureStore } from '@reduxjs/toolkit';
+import favoritesReducer from './reducers/favoritesSlice';
+
+export const store = configureStore({
+  reducer: {
+    favorites: favoritesReducer,
+  },
+});
+
+```
+
+### Provide the Redux Store to React
+
+Now our store has been created, we can make it available to our React components by putting a React-Redux `<Provider>` around our application. The Redux store that was created has been imported into the , put a `<Provider>` around your `<App>`, and pass the store as a prop:
+
