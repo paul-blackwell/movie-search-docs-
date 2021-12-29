@@ -68,7 +68,7 @@ For this project we are going to use **[Redux Toolkit](https://redux-toolkit.js.
 
 ## Setting up our global state
 
-The unit **[unit-3](https://github.com/paul-blackwell/movie-search/tree/unit-3)** was everything we need already set up, however lets walk though
+In this unit (**[unit-3](https://github.com/paul-blackwell/movie-search/tree/unit-3)**) we have everything we need already set up, however lets walk though
 the code to see whats going on.
 
 :::info
@@ -85,25 +85,22 @@ The following files have been added.
 
 ### Creating the Redux store
 
-In `store.js` the following code has been added, This creates a Redux store, and also automatically configure the Redux DevTools extension so that we can inspect the store while developing.
+First lets start with `store.js`, the following code has been added, This creates a Redux store, and also automatically configure the Redux DevTools extension so that we can inspect the store while developing. Lets pass an empty `reducer` object into our store, we will update this shortly but for now lets move onto the next step.
 
 ```jsx
 
 /* eslint-disable import/prefer-default-export */
 import { configureStore } from '@reduxjs/toolkit';
-import favoritesReducer from './reducers/favoritesSlice';
 
 export const store = configureStore({
-  reducer: {
-    favorites: favoritesReducer,
-  },
+  reducer: {},
 });
 
 ```
 
 ### Providing the Redux Store to React
 
-Now our store has been created, we can make it available to our React components by putting a React-Redux `<Provider>` around our application (in our index.js file). The Redux store that was created is then passed into the `<Provider>`. The `<App>` is passed into the `<Provider>` as a child, this means that the `App` no has access to the store.
+Now our store has been created, we can make it available to our React components by putting a React-Redux `<Provider>` around our application (in our index.js file). The Redux store that was created is then passed into the `<Provider>`. Then `<App>` is passed into the `<Provider>` as a child, this means that the `App` now has access to the store. So, every child component in our app can now have access to our sore.
 
 ``` jsx
 
@@ -126,7 +123,51 @@ ReactDOM.render(
 
 ### Creating a Redux State Slice
 
-In `reducers/favorites/favoritesSlice.js` the following code sets up our initial state (an empty array), 
-
+Now in `reducers/favorites/favoritesSlice.js` lets set our favoritesSlice. First lets add our `initialState` witch is an object with the key `value` that is an empty array. Now lets make our `favoritesSlice`:
 
 > createSlice(): accepts an object of reducer functions, a slice name, and an initial state value, and automatically generates a slice reducer with corresponding action creators and action types.
+
+Our slice name is 'favorites', our initial state value is from the `initialState` object. Then we have to add our reducers, these reducers will allow us to update our state within the favoritesSlice. For now let just add one `addToFavorites`. This has two arguments `state` and `action`, `state` is our state and `action.payload` will alow use to update the state to what whatever the payload is. In this case we are pushing our `action.payload` to our state array.
+
+Lastly we need to export our `addToFavorites` reducer and our favoritesSlice.reducer.
+
+:::tip
+
+### Don't get it?
+Don't worry we will shortly be using React redux devtools to understand whats going on when we use our `addToFavorites` reducer. 
+
+:::
+
+```js
+/* eslint-disable import/prefer-default-export */
+import { createSlice } from '@reduxjs/toolkit';
+
+const initialState = {
+  value: [],
+};
+
+export const favoritesSlice = createSlice({
+  name: 'favorites',
+  initialState,
+  reducers: {
+    // Redux Toolkit allows us to write "mutating" logic in reducers. It
+    // doesn't actually mutate the state because it uses the Immer library,
+    // which detects changes to a "draft state" and produces a brand new
+    // immutable state based off those changes
+    addToFavorites: (state, action) => {
+      state.value.push(action.payload);
+    },
+  },
+});
+
+export const { addToFavorites } = favoritesSlice.actions;
+
+export default favoritesSlice.reducer;
+```
+
+
+
+
+
+
+ The `reducer` object is passed into the `configureStore` function as an argument, in `reducer` the `favoritesReducer`. We will cove the `favoritesReducer` shortly
