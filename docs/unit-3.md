@@ -165,9 +165,36 @@ export const { addToFavorites } = favoritesSlice.actions;
 export default favoritesSlice.reducer;
 ```
 
+## Add Slice Reducers to the Store
+
+Now we need to import the reducer function from the favorites and add it to our store. By defining a field inside the `reducer` parameter, we tell the store to use this slice reducer function to handle all updates to that state.
+
+```js
+
+/* eslint-disable import/prefer-default-export */
+import { configureStore } from '@reduxjs/toolkit';
+import favoritesReducer from './reducers/favoritesSlice';
+
+export const store = configureStore({
+  reducer: {
+    favorites: favoritesReducer,
+  },
+});
+
+```
+
+Lets check everything is working correctly buy inspecting our Redux state in the application. We can do this buy right clicking then selecting the "inspect" option. Assuming we have the **[Redux DevTools extension](https://chrome.google.com/webstore/detail/redux-devtools)** extension installed, 
+all we need to do is click on two arrows in our devtools the click on Redux.
+
+![Accessing Redux DevTools extension in google devtools screen shot](/img/unit-3/accessing-redux-devtools-extension.png)
+
+Now we just click on the "State" tab and we should see our favorites state, it should look something like this:
+
+``` js
+
+favorites: { value: [] }
+
+```
 
 
-
-
-
- The `reducer` object is passed into the `configureStore` function as an argument, in `reducer` the `favoritesReducer`. We will cove the `favoritesReducer` shortly
+![Inspecting our state in Redux DevTools screenshot](/img/unit-3/inspecting-our-state-in-redux-devtools.png)
