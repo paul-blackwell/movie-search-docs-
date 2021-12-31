@@ -196,5 +196,14 @@ favorites: { value: [] }
 
 ```
 
-
 ![Inspecting our state in Redux DevTools screenshot](/img/unit-3/inspecting-our-state-in-redux-devtools.png)
+
+## Use Redux State and Actions in React Components
+
+Lets say we want to access or update our favorites store in a component, all we have to do is import the `useSelector` and `useDispatch` hooks from 'react-redux' into our component. The `useSelector`hook will allow us to read data from the store and the `useDispatch` hook will allow us to  dispatch actions (update our favorites store).
+
+Lets add an `onclick` to the `<Card />` component so when the user clicks on a Card the cards movie is added to our favorites store. 
+
+![Annotated pagination cards screenshot showing the user where to add the onclick to](/img/unit-3/add-onclick-pagination-cards.png)
+
+
