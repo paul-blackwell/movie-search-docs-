@@ -47,7 +47,7 @@ const config = {
             type: 'doc',
             docId: 'getting-started',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Tutorials',
           },
           {
             href: 'https://github.com/paul-blackwell/movie-search',
