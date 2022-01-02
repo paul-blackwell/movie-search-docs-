@@ -121,9 +121,16 @@ ReactDOM.render(
 
 ```
 
+###  Creating our actions
+
+Next we need to create the `addToFavorites` action using the `createAction` function in `actions/favoritesActions.js` file. We don't necessary need to have our actions in a separate file as we could  have them in the same file as `favoritesReducer.js` (favoritesReducer.js is covered in the next section) however, if we had a lot of actions it may be tidier to have them in their own file.
+
+
+
+
 ### Creating a Redux State Slice
 
-Now in `reducers/favorites/favoritesSlice.js` lets set our favoritesSlice. First lets add our `initialState` witch is an object with the key `value` that is an empty array. Now lets make our `favoritesSlice`:
+In our `reducers/favorites/favoritesReducer.js` file lets set up our favoritesReducer. First lets add our `initialState` witch is an object with the key `value` that is an empty array. Now lets make our `favoritesSlice`:
 
 > createSlice(): accepts an object of reducer functions, a slice name, and an initial state value, and automatically generates a slice reducer with corresponding action creators and action types.
 
