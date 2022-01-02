@@ -348,3 +348,4 @@ Your task is to add a new reducer called `removeFromFavorites`, that will be use
 
 If you get stuck or get overwhelmed remember you can always get the answer for this task
 on the [unit-3-answers](/docs/unit-3) page.
+
