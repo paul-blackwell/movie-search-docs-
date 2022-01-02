@@ -330,3 +330,21 @@ export default Card;
 
 ```
 
+Now lets check that when a user clicks on a Card its added to the `favorites` store. To do this we will have to open our Redux dev tools again and check our initial state. This should still be `favorites: {value: []}`.
+
+![Inspecting our state in Redux DevTools screenshot](/img/unit-3/inspecting-our-state-in-redux-devtools.png)
+
+If we then click on one of our cards the `favorites` store should be updated to now contain our movie. This should look something like this `favorites: {value: [{Tile: "Chernobyl" Year:"2019" ...}]}`.
+
+![Inspecting our state in Redux DevTools after adding a new movie screenshot](/img/unit-3/accessing-redux-devtools-extension-updated-favorites.png)
+
+
+## Task
+
+Your task is to add a new reducer called `removeFromFavorites`, that will be used to remove a movie from the favorites store. You will need to do the following to achieve this:
+
+- Add a new reducer called `removeFromFavorites` that removes a movie from the favorites store to `getMovieScore.js`
+- Update the `handleClick` in the `<Card />` component to check the if the movie is in the favorites store, if its is remove the the movie from the store using your new `removeFromFavorites` reducer else add the movie to the favorites store using the existing `addToFavorites` reducer.
+
+If you get stuck or get overwhelmed remember you can always get the answer for this task
+on the [unit-3-answers](/docs/unit-3) page.
