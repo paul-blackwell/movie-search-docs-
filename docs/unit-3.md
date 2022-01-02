@@ -343,7 +343,7 @@ If we then click on one of our cards the `favorites` store should be updated to 
 
 Your task is to add a new reducer called `removeFromFavorites`, that will be used to remove a movie from the favorites store. You will need to do the following to achieve this:
 
-- Add a new reducer called `removeFromFavorites` that removes a movie from the favorites store to `getMovieScore.js`
+- Add a new reducer called `removeFromFavorites` that removes a movie from the favorites store to `favoritesSlice.js`
 - Update the `handleClick` in the `<Card />` component to check the if the movie is in the favorites store, if its is remove the the movie from the store using your new `removeFromFavorites` reducer else add the movie to the favorites store using the existing `addToFavorites` reducer.
 
 If you get stuck or get overwhelmed remember you can always get the answer for this task
