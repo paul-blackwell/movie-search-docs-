@@ -252,7 +252,7 @@ In this section we will be adding an onclick to our `<Card />` component that ad
 
 Lets say we want to access or update our favorites store in a component, all we have to do is import the `useSelector` and `useDispatch` hooks from 'react-redux' into our component. The `useSelector`hook will allow us to read data from the store and the `useDispatch` hook will allow us to  dispatch actions (update our favorites store).
 
-Lets add an `onclick` to the `<Card />` component so when the user clicks on a Card the cards movie is added to our favorites store. 
+Lets add an `onclick` to the `<Card />` component so when the user clicks on a `<Card />` component the cards movie is added to our favorites store. 
 
 ![Annotated pagination cards screenshot showing the user where to add the onclick to](/img/unit-3/add-onclick-pagination-cards.png)
 
@@ -291,7 +291,7 @@ Now we can declare our `dispatch` function and add it to a `handleClick` functio
 // This will add the movie to the favorites global state when the card is clicked
 const dispatch = useDispatch();
 const handleClick = () => {
-  dispatch(addToFavorites(movie));
+  dispatch({ type: 'ADD_TO_FAVORITES', payload: movie });
 };
 
 ```
@@ -322,7 +322,6 @@ Our `<Card />` component with all of the new code should look something like thi
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { addToFavorites } from '../../../reducers/favoritesSlice';
 import styles from './card.module.scss';
 import getMovieScore from '../../../utils/getMovieScore';
 import StandardImage from '../../atoms/standard-image/standard-image';
@@ -344,7 +343,7 @@ const Card = ({ className, movie }) => {
   // This will add the movie to the favorites global state when the card is clicked
   const dispatch = useDispatch();
   const handleClick = () => {
-    dispatch(addToFavorites(movie));
+    dispatch({ type: 'ADD_TO_FAVORITES', payload: movie });
   };
 
   return (
@@ -386,8 +385,9 @@ If we then click on one of our cards the `favorites` store should be updated to 
 
 Your task is to add a new reducer called `removeFromFavorites`, that will be used to remove a movie from the favorites store. You will need to do the following to achieve this:
 
-- Add a new reducer called `removeFromFavorites` that removes a movie from the favorites store to `favoritesSlice.js`
-- Update the `handleClick` in the `<Card />` component to check the if the movie is in the favorites store, if its is remove the the movie from the store using your new `removeFromFavorites` reducer else add the movie to the favorites store using the existing `addToFavorites` reducer.
+- Add a new action called "REMOVE_FROM_FAVORITES" to `favoritesActions.js`.
+- Add a new reducer called `removeFromFavorites` that removes a movie from the favorites store to `favoritesReducer.js`
+- Update the `handleClick` in the `<Card />` component to check the if the movie is in the favorites store, if it is remove the the movie from the store using your new `removeFromFavorites` reducer. But if the movie is not already in the store add the movie to the favorites store using the existing `addToFavorites` reducer.
 
 If you get stuck or get overwhelmed remember you can always get the answer for this task
 on the [unit-3-answers](/docs/unit-3) page.
