@@ -45,15 +45,14 @@ Redux has:
 - Middleware
 - Addons and extensibility
 - Cross-platform and cross-framework usage
-- Depending on your app's setup, much better performance than working with just Context
+- Depending on the app setup, it much better performance than working with just Context
 
 :::
-
 
 ### Redux Tookit
 > Recently Redux Team launched Redux Toolkit, an officially recommended and a SOPE library that stands for Simple, Opinionated, Powerful, and Effective state management library. It allows us to write more efficient code, speed up the development process, and automatically apply the best-recommended practices. 
 
-It was mainly created to solve the THREE MAJOR ISSUES with Redux:
+It was mainly created to solve the **THREE MAJOR ISSUES** with Redux:
 
 - Configuring a Redux store is too complicated
 - Have to add a lot of packages to build a large scale application
@@ -62,9 +61,32 @@ It was mainly created to solve the THREE MAJOR ISSUES with Redux:
 
 ### What we are going to implement 
 
-For this project we are going to use **[Redux Toolkit](https://redux-toolkit.js.org/tutorials/quick-start)** because we want to make use of all the advantages Redux has over the Context api but not have deal with the unnecessary boilerplate code that comes with Redux. Before we do that have a look at the diagram bellow showing the difference between prop-drilling and Redux Tool kit, just to 100% make sure you understand the difference.
+For this project we are going to use **[Redux Toolkit](https://redux-toolkit.js.org/tutorials/quick-start)** because we want to make use of all the advantages Redux has over the Context api but not have deal with the unnecessary boilerplate code that comes with Redux. Before we do that, have a look at the diagram bellow showing the difference between prop-drilling and Redux Tool kit, just to 100% make sure you understand the difference.
 
 ![Prop-drilling vs Redux diagram](/img/unit-3/diagram.png)
+
+
+# Concepts and Data Flow
+
+:::note 
+
+This section (Concepts and Data Flow) has been copied directly from the **[Redux documentation](https://redux.js.org/tutorials/fundamentals/part-2-concepts-data-flow)**. As this explain want we aim to achieve in a concise way.
+:::
+
+In the following sections we are going to set up:
+
+- The **state**, the source of truth that drives our app;
+- The **view**, a declarative description of the UI based on the current state
+- The **actions**, the events that occur in the app based on user input, and trigger updates in the state
+
+This is a small example of **"one-way data flow"**:
+
+- State describes the condition of the app at a specific point in time
+- The UI is rendered based on that state
+- When something happens (such as a user clicking a button), the state is updated based on what occurred
+- The UI re-renders based on the new state
+
+![One way data flow diagram](/img/unit-3/one-way-data-flow.png)
 
 ## Setting up our global state
 
@@ -122,55 +144,69 @@ ReactDOM.render(
 ```
 
 ###  Creating our actions
-
 Next we need to create the `addToFavorites` action using the `createAction` function in `actions/favoritesActions.js` file. We don't necessary need to have our actions in a separate file as we could  have them in the same file as `favoritesReducer.js` (favoritesReducer.js is covered in the next section) however, if we had a lot of actions it may be tidier to have them in their own file.
 
 
+``` js
+
+import { createAction } from '@reduxjs/toolkit';
+
+export const addToFavorites = createAction('ADD_TO_FAVORITES');
+
+```
 
 
-### Creating a Redux State Slice
+### Creating our reducer
 
-In our `reducers/favorites/favoritesReducer.js` file lets set up our favoritesReducer. First lets add our `initialState` witch is an object with the key `value` that is an empty array. Now lets make our `favoritesSlice`:
+In our `reducers/favorites/favoritesReducer.js` file lets set up our favoritesReducer. First lets add our `initialState` which is an object with the key `value` that is an empty array. 
 
-> createSlice(): accepts an object of reducer functions, a slice name, and an initial state value, and automatically generates a slice reducer with corresponding action creators and action types.
+The `createReducer` function:
 
-Our slice name is 'favorites', our initial state value is from the `initialState` object. Then we have to add our reducers, these reducers will allow us to update our state within the favoritesSlice. For now let just add one `addToFavorites`. This has two arguments `state` and `action`, `state` is our state and `action.payload` will alow use to update the state to what whatever the payload is. In this case we are pushing our `action.payload` to our state array.
+> Supports two different forms of defining case reducers to handle actions: a "builder callback" notation and a "map object" notation. Both are equivalent, but the "builder callback" notation is preferred.
 
-Lastly we need to export our `addToFavorites` reducer and our favoritesSlice.reducer.
+To put it simply, the "builder callback" will allow us to to make changes to our store. For example, in the code the following `addCase` will push our action.payload to our store.
 
-:::tip
+``` js
 
-### Don't get it?
-Don't worry we will shortly be using React redux devtools to understand whats going on when we use our `addToFavorites` reducer. 
-
-:::
-
-```js
-/* eslint-disable import/prefer-default-export */
-import { createSlice } from '@reduxjs/toolkit';
+import { createReducer } from '@reduxjs/toolkit';
+import { addToFavorites } from '../actions/favoritesActions';
 
 const initialState = {
   value: [],
 };
 
-export const favoritesSlice = createSlice({
-  name: 'favorites',
-  initialState,
-  reducers: {
-    // Redux Toolkit allows us to write "mutating" logic in reducers. It
-    // doesn't actually mutate the state because it uses the Immer library,
-    // which detects changes to a "draft state" and produces a brand new
-    // immutable state based off those changes
-    addToFavorites: (state, action) => {
+const favoritesReducer = createReducer(initialState, (builder) => {
+  builder
+    .addCase(addToFavorites, (state, action) => {
       state.value.push(action.payload);
-    },
-  },
+    });
 });
 
-export const { addToFavorites } = favoritesSlice.actions;
+export default favoritesReducer;
 
-export default favoritesSlice.reducer;
 ```
+
+
+:::info
+### Important 
+
+In our code example above we are mutating our state `state.value.push(action.payload);`
+
+In Redux 
+> Redux requires reducer functions to be pure and treat state values as immutable. While this is essential for making state updates predictable and observable, it can sometimes make the implementation of such updates awkward. 
+
+In Redux Toolkit 
+> To make things easier, `createReducer` uses [immer](https://github.com/immerjs/immer) to let you write reducers as if they were mutating the state directly. In reality, the reducer receives a proxy state that translates all mutations into equivalent copy operations.
+
+To find our more check the **[Redux Toolkit docs](https://redux-toolkit.js.org/api/createReducer#direct-state-mutation)**.
+
+:::
+
+
+### Don't get it?
+Don't worry we will shortly be using React redux devtools to understand whats going on when we use our `addToFavorites` reducer. 
+
+
 
 ## Add Slice Reducers to the Store
 
@@ -178,9 +214,8 @@ Now we need to import the reducer function from the favorites and add it to our 
 
 ```js
 
-/* eslint-disable import/prefer-default-export */
 import { configureStore } from '@reduxjs/toolkit';
-import favoritesReducer from './reducers/favoritesSlice';
+import favoritesReducer from './reducers/favoritesReducer';
 
 export const store = configureStore({
   reducer: {
@@ -188,9 +223,10 @@ export const store = configureStore({
   },
 });
 
+
 ```
 
-Lets check everything is working correctly buy inspecting our Redux state in the application. We can do this buy right clicking then selecting the "inspect" option. Assuming we have the **[Redux DevTools extension](https://chrome.google.com/webstore/detail/redux-devtools)** extension installed, 
+Lets check everything is working correctly by inspecting our Redux state in the application. We can do this buy right clicking then selecting the "inspect" option. Assuming we have the **[Redux DevTools extension](https://chrome.google.com/webstore/detail/redux-devtools)** extension installed, 
 all we need to do is click on two arrows in our devtools the click on Redux.
 
 ![Accessing Redux DevTools extension in google devtools screen shot](/img/unit-3/accessing-redux-devtools-extension.png)
