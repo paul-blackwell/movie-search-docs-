@@ -142,6 +142,59 @@ export default App;
 
 ```
 
-## Letting up our links 
+## Setting up our links 
 
-Let now take a look at our 
+Lets now take a look at our navigation. 
+
+![Screenshot of new navigation](/img/unit-4/navigation.png)
+
+It now contains a Home link (will navigate to "/"), Browse link  (will navigate to "/search") and a Favorites link  (will navigate to "/favorites"). So how do we set these links up, we just use an `<a>` tag right? No we don't this is because we need React Router to handle navigating between pages. There are two ways of doing this using the `<Link />` component or the `<NavLink />` component. If we just need a standard link, lets say for when we click on a `<Card />` component we can use the `<Link />` component. But if we need active links i.e the link colour changes to blue to tell the user they on that page, we can use the `<NavLink />`. All we need to do is check the `isActive` value that `<NavLink />` passed to our className to update the className depending on wether the link is active or not. Lastly, we just need to set the `to` prop to the route we want to navigate to.
+
+``` jsx
+
+import React from 'react';
+import PropTypes from 'prop-types';
+import { FiCompass, FiHeart, FiHome } from 'react-icons/fi';
+import { NavLink } from 'react-router-dom';
+import styles from './nav.module.scss';
+import CallToAction from '../../molecules/call-to-action/call-to-action';
+
+const Nav = ({ className, showMobileNav }) => (
+  <nav className={`${styles.nav} ${className} ${showMobileNav ? styles['nav--show'] : ''}`}>
+    <ul className={styles.nav__list}>
+      <li className={styles.nav__item}>
+        <NavLink className={({ isActive }) => (isActive ? styles['nav__link--active'] : styles.nav__link)} to="/">
+          <FiHome className={styles.nav__icon} />
+          Home
+        </NavLink>
+      </li>
+      <li className={styles.nav__item}>
+        <NavLink className={({ isActive }) => (isActive ? styles['nav__link--active'] : styles.nav__link)} to="search">
+          <FiCompass className={styles.nav__icon} />
+          Browse
+        </NavLink>
+      </li>
+      <li className={styles.nav__item}>
+        <NavLink className={({ isActive }) => (isActive ? styles['nav__link--active'] : styles.nav__link)} to="favorites">
+          <FiHeart className={styles.nav__icon} />
+          Favorites
+        </NavLink>
+      </li>
+    </ul>
+    <CallToAction />
+  </nav>
+);
+
+Nav.propTypes = {
+  className: PropTypes.string,
+  showMobileNav: PropTypes.bool.isRequired,
+};
+
+Nav.defaultProps = {
+  className: '',
+};
+
+export default Nav;
+
+```
+
