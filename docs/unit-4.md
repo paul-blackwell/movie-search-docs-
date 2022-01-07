@@ -46,7 +46,7 @@ ReactDOM.render(
 
 ## NoMatch page
 
-Next lets quickly look at the `<NoMatch />` page component that was added to `src/components/pages`. All it shows is a `<PrimaryHeading />` and a `<Paragraph />` component. It is pretty basic but we will add to it in the future, we will leave it for now but it will come in handy later on in this unit, as we are going to use it as a 404 page if we can't find a route ie `/movie/this-page-dose-not-exist`.
+Next lets quickly look at the `<NoMatch />` page component that was added to `src/components/pages`. All it shows is a `<PrimaryHeading />` and a `<Paragraph />` component. It is pretty basic but we will add to it in the future. We will leave it for now but it will come in handy later on in this unit, as we are going to use it as a 404 page if we can't find a route ie `/movie/this-page-dose-not-exist`.
 
 ``` jsx
 
@@ -86,7 +86,7 @@ export default Movie;
 
 ## Adding our Routes
 
-Lets say we wanted to add a `/movie` route to our URL, so when the user navigates to it it shows our `<Movie />` page component, how would we do that? Firstly, we will need to import `Routes` and `Route` from `'react-router-dom'` into our `App.js` file. We then add the `<Routes />` component our `<App />` component. However, we also want to add it inside our `<Layout />` component. Remember our `<Layout />` component contains our `<Header />` `<Navbar />` and `<Search />` components and we want these to be shown on every page. So, we don't want to render `<Layout />` component every time the URL is updated as it always says consistent. Now lets add our `<Route />` component with the path prop set to "movie" and the element prop set to `<Movie />`. What this means is if we hit `/movie` route our <Route />` will render our `<Movie />` component.
+Lets say we wanted to add a `/movie` route to our URL, so when the user navigates to it it shows our `<Movie />` page component, how would we do that? Firstly, we will need to import `Routes` and `Route` from `'react-router-dom'` into our `App.js` file. We then add the `<Routes />` component to our `<App />` component. However, we also want to add it inside our `<Layout />` component. Remember our `<Layout />` component contains our `<Header />` `<Navbar />` and `<Search />` components and we want these to be shown on every page. So, we don't want to render `<Layout />` component every time the URL is updated as it always says consistent. Now lets add our `<Route />` component with the path prop set to "movie" and the element prop set to `<Movie />`. What this means is if we hit `/movie` route our `<Route />` will render our `<Movie />` page component.
 
 ``` jsx
 
@@ -112,6 +112,36 @@ export default App;
 
 ```
 
-Whats wrong with the code above? 
+Whats wrong with the code above? The problem is we have no root route, so lets say we navigated to our home route `/` not the `/movies` route, we aren't loading our `<Home />` page component. So lets add that route to our code. While we are at it lets add a route with its path prop set to `*` and set its element prop to `<NoMatch />`, this will render our `<NoMatch />` page component if none of the other routes are found.
 
+``` jsx
 
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import './styles/main.scss';
+import Layout from './components/templates/layout/layout';
+import Home from './components/pages/home/home';
+import Movie from './components/pages/movie/movie';
+import NoMatch from './components/pages/no-match/no-match';
+
+const App = () => (
+  <div className="App">
+    <header className="App-header">
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="movie" element={<Movie />} />
+          <Route path="*" element={<NoMatch />} />
+        </Routes>
+      </Layout>
+    </header>
+  </div>
+);
+
+export default App;
+
+```
+
+## Letting up our links 
+
+Let now take a look at our 
