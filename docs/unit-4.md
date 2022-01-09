@@ -211,5 +211,7 @@ As you many have noticed, when you click on the "Browse" and "Favorites" links t
 
 - Make a new `<Favorites />` page component that renders the following heading: `<PrimaryHeading>This is favorites page</PrimaryHeading>`. Then add a new route "favorites" for it in app.js.
 
+If you get stuck or get overwhelmed remember you can always get the answer for this task
+on the [unit-4-answers](/docs/unit-4-answers) page.
 
 
