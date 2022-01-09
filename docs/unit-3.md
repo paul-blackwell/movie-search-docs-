@@ -208,7 +208,7 @@ Don't worry we will shortly be using React redux devtools to understand whats go
 
 
 
-## Add Slice Reducers to the Store
+## Adding our Reducer to the Store
 
 Now we need to import the reducer function from the favorites and add it to our store. By defining a field inside the `reducer` parameter, we tell the store to use this slice reducer function to handle all updates to that state.
 
@@ -263,7 +263,6 @@ To do this we will first need to import our `useSelector` and `useDispatch` hook
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux'; // Add this line
-import { addToFavorites } from '../../../reducers/favoritesSlice'; // Add this line
 import styles from './card.module.scss';
 import StandardImage from '../../atoms/standard-image/standard-image';
 import MovieScore from '../../atoms/movie-score/movie-score';
@@ -284,7 +283,7 @@ console.log(favorites);
 
 ```
 
-Now we can declare our `dispatch` function and add it to a `handleClick` function. When this `handleClick` function is fired our `addToFavorites` reducer with the card's movie can be passed into our `dispatch`. This will update our favorites store to now include our movie.
+Now we can declare our `dispatch` function and add it to a `handleClick` function. When this `handleClick` function is fired our `addToFavorites` action `ADD_TO_FAVORITES` with the card's movie can be passed into our `dispatch`. This will update our favorites store to now include our movie.
 
 ``` js
 
