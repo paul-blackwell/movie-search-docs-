@@ -148,7 +148,7 @@ Lets now take a look at our navigation.
 
 ![Screenshot of new navigation](/img/unit-4/navigation.png)
 
-It now contains a Home link (will navigate to "/"), Browse link  (will navigate to "/search") and a Favorites link  (will navigate to "/favorites"). So how do we set these links up, we just use an `<a>` tag right? No we don't this is because we need React Router to handle navigating between pages. There are two ways of doing this using the `<Link />` component or the `<NavLink />` component. If we just need a standard link, lets say for when we click on a `<Card />` component we can use the `<Link />` component. But if we need active links i.e the link colour changes to blue to tell the user they on that page, we can use the `<NavLink />`. All we need to do is check the `isActive` value that `<NavLink />` passed to our className to update the className depending on wether the link is active or not. Lastly, we just need to set the `to` prop to the route we want to navigate to.
+It now contains a Home link (will navigate to "/"), Browse link  (will navigate to "/search-results") and a Favorites link  (will navigate to "/favorites"). So how do we set these links up, we just use an `<a>` tag right? No we don't this is because we need React Router to handle navigating between pages. There are two ways of doing this using the `<Link />` component or the `<NavLink />` component. If we just need a standard link, lets say for when we click on a `<Card />` component we can use the `<Link />` component. But if we need active links i.e the link colour changes to blue to tell the user they on that page, we can use the `<NavLink />`. All we need to do is check the `isActive` value that `<NavLink />` passed to our className to update the className depending on wether the link is active or not. Lastly, we just need to set the `to` prop to the route we want to navigate to.
 
 ``` jsx
 
@@ -169,7 +169,7 @@ const Nav = ({ className, showMobileNav }) => (
         </NavLink>
       </li>
       <li className={styles.nav__item}>
-        <NavLink className={({ isActive }) => (isActive ? styles['nav__link--active'] : styles.nav__link)} to="search">
+        <NavLink className={({ isActive }) => (isActive ? styles['nav__link--active'] : styles.nav__link)} to="search-results">
           <FiCompass className={styles.nav__icon} />
           Browse
         </NavLink>
@@ -197,4 +197,19 @@ Nav.defaultProps = {
 export default Nav;
 
 ```
+
+
+## Task
+
+This weeks task is smaller than usual, this is because in [unit-5](/docs/unit-5) we will be using what we learnt in this unit and [unit-3](/docs/unit-3) to set up our `<Movie />` page component. We will be making dynamic routes based on our global state to renter the `<Movie />` page component showing a movie based our what the user clicked on in the previous page.
+
+Your task for this unit is:
+
+As you many have noticed, when you click on the "Browse" and "Favorites" links the `<NoMatch />` page component is shown. This is because our "/search-results" and "/favorites" routes don't exist.
+
+- Make a new `<SearchResults />` page component that renders the following heading: `<PrimaryHeading>This is search results page</PrimaryHeading>`. Then add a new "search-results" route for it in app.js.
+
+- Make a new `<Favorites />` page component that renders the following heading: `<PrimaryHeading>This is favorites page</PrimaryHeading>`. Then add a new route "favorites" for it in app.js.
+
+
 
