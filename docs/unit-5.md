@@ -348,3 +348,6 @@ Yor second task is to add an onClick on the `<ButtonFavorites />`, this will add
 This is what the `<ButtonFavorites />` looks like with an without the `alreadySelected` prop.
 
 ![ButtonFavorites component with and without already selected prop](/img/unit-5/button-favorites-component-already-selected.png)
+
+If you get stuck or get overwhelmed remember you can always get the answers for these tasks
+on the [unit-5-answers](/docs/unit-5-answers) page.
