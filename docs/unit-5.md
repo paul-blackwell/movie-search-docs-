@@ -340,8 +340,7 @@ Your first task is to add the the same functionally shown in previous sections t
 
 
 ### Task 2
-Yor second task is to add an onClick on the `<ButtonFavorites />`, this will add the movie to favorite store using your 
-`addToFavorites` reducer. If the movie is already a favorite the the button will be marked as "alreadySelected" (the ButtonFavorites component has a prop type for this) and the user will not be able to add the movie to the favorites. 
+Your second task is to add an onClick to the `<MovieSection />` when the `<ButtonFavorites />` is clicked, this will add the movie to favorite store using your `addToFavorites` reducer. If the movie is already a favorite the the button will be marked as "alreadySelected" (the ButtonFavorites component has a prop type for this) and the user will not be able to add the movie to the favorites. 
 
 ![Annotated movie page screenshot](/img/unit-5/annotated-movie-page.png)
 
