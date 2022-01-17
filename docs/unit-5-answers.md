@@ -141,3 +141,25 @@ export default HeroSection;
 
 ### Task 2
 
+First we will need to import `useSelector` and  `useDispatch` into our `<MovieSection>`. Note we will need to use the `useSelector` to check if our movie is already in our favorites store.
+
+``` js
+
+import React from 'react';
+import PropTypes from 'prop-types';
+import { FiPlay } from 'react-icons/fi';
+import { useSelector, useDispatch } from 'react-redux'; // Added 
+import styles from './movie-section.module.scss';
+import getMovieScore from '../../../utils/getMovieScore';
+import ButtonBack from '../../atoms/button-back/button-back';
+import ButtonFavorites from '../../atoms/button-favorites/button-favorites';
+import ButtonPrimary from '../../atoms/button-primary/button-primary';
+import StandardImage from '../../atoms/standard-image/standard-image';
+import MovieScore from '../../atoms/movie-score/movie-score';
+import PrimaryHeading from '../../atoms/typography/primary-heading/primary-heading';
+import Paragraph from '../../atoms/typography/paragraph/paragraph';
+
+```
+
+
+Next we will need to get the state from our favorites store and add set it as a variable `favorites`.  Then we declare another variable called movieIsInFavorites.
