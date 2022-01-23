@@ -139,7 +139,7 @@ export default Toast;
 
 ## Adding our Toast to our Layout component
 
-As our `Toast` component can be used anywhere in the app we don't want to add it to individual page components but instead have it as part of our `Layout` component and update it using our global state. But first lets add it to our `Layout` component and lets also hard code the props just so we can see what the component looks like.
+As our `<Toast />` component can be used anywhere in the app we don't want to add it to individual page components but instead have it as part of our `<Layout />` component and update it using our global state. But first lets add it to our `<Layout />` component and lets also hard code the props just so we can see what the component looks like.
 
 ``` jsx
 
@@ -228,3 +228,96 @@ export const store = configureStore({
 });
 
 ```
+
+## Showing our Toast component depending on our toast store 
+
+Now we have our `toastStore` we need to get our `<Toast />` component to use it. In the `Layout` component we need to add some new state called `toastState`.
+
+``` js
+
+const [toastState, setToastState] = useState('');
+
+``` 
+
+Then we need to get our toast store using `useSelector`and we also need to add a `useEffect` hook to listen out for a change in our toast store. If there is a change in our toast store the `useEffect` hook will fire the `setToastState` updating the `toastState` state.
+
+``` js
+
+const toastStore = useSelector((state) => state.toast);
+useEffect(() => {
+  setToastState(toastStore.toast);
+}, [toastStore]);
+
+```
+
+Lastly, we need to update our `<Toast />` component to use our toastState.
+
+``` jsx
+
+<Toast
+  show={toastState.display}
+  hide={toastState.display}
+  message={toastState.message}
+  error={toastState.type === 'error'}
+  success={toastState.type === 'success'}
+/>
+
+```
+
+This is what our finished component should look like.
+
+``` jsx 
+
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import styles from './layout.module.scss';
+import Header from '../../organisms/header/header';
+import Search from '../../organisms/search/search';
+import Nav from '../../organisms/nav/nav';
+import Toast from '../../molecules/toast/toast';
+
+const Layout = ({ children }) => {
+  const [showMobileNav, setShowMobileNav] = useState(false);
+  const [toastState, setToastState] = useState('');
+
+  const toastStore = useSelector((state) => state.toast);
+  useEffect(() => {
+    setToastState(toastStore.toast);
+  }, [toastStore]);
+
+  return (
+    <div className={styles.layout}>
+      <Header
+        className={styles.layout__header}
+        showMobileNav={showMobileNav}
+        setShowMobileNav={setShowMobileNav}
+      />
+      <Search className={styles.layout__search} />
+      <Nav className={styles.layout__nav} showMobileNav={showMobileNav} />
+      <main className={styles.layout__main}>
+        <div className={styles.layout__wrapper}>
+          {children}
+        </div>
+      </main>
+      <Toast
+        show={toastState.display}
+        hide={toastState.display}
+        message={toastState.message}
+        error={toastState.type === 'error'}
+        success={toastState.type === 'success'}
+      />
+    </div>
+  );
+};
+
+Layout.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+export default Layout;
+
+
+```
+
+## Showing our Toast when a favorite is added 
