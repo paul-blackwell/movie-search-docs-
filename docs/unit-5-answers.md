@@ -6,7 +6,7 @@ sidebar_position: 11
 
 ## Accessing the Unit-5 answers
 
-Clone the **[unit-5-answers](https://github.com/paul-blackwell/movie-search/tree/unit-4-answers)**, branch to get the answers to unit-5.
+Clone the **[unit-5-answers](https://github.com/paul-blackwell/movie-search/tree/unit-5-answers)**, branch to get the answers to unit-5.
 
 ## Answer
 
