@@ -28,7 +28,7 @@ The `<Toast />`(molecule) component has been provided to us. Its prop types are 
 
 This is what the `error` and `success` props look like when added to the component.
 
-![Toast showing the default, success and error props`](/img/unit-6/toasts.png)
+![Toast showing the default, success and error props](/img/unit-6/toasts.png)
 
 And the code for the component looks like this. Note that the `handleClick` has a "TODO" comment next to it, don't worry about this for now we will be handling it in the task.
 
@@ -321,3 +321,44 @@ export default Layout;
 ```
 
 ## Showing our Toast when a favorite is added 
+
+The last thing we need to do is add our `SHOW_TOAST` dispatch to our `handleAddToFavorites` function in the `<MoveSection />` component. The payload for our new dispatch will need to set display true, the message we want to show with the movie title and the type will need to be set to success. Now when the user clicks on the add to favorites button a success toast will be shown
+
+``` js
+
+const handleAddToFavorites = () => {
+  if (!movieIsInFavorites) {
+    dispatch({ type: 'ADD_TO_FAVORITES', payload: movieObj });
+
+    // Show success toast
+    dispatch({
+      type: 'SHOW_TOAST',
+      payload: {
+        display: true,
+        message: `Added ${Title} to your favorites. `,
+        type: 'success',
+      },
+    });
+  }
+};
+
+```
+
+## Task
+
+### Task 1
+
+Now you may have noticed that when the toast is shown there is no way of closing it, you will need to update the `handleClick` inside of the `<Toast />` component to fire a dispatch to close the toast when the close icon is clicked.
+
+![Screenshot of the movie section showing the toast with an annotated close icon](/img/unit-6/toast-close-icon.png)
+
+
+### Task 2
+
+It would also be good to hide the toast after 2 sections. You will need to add another `useEffect` in the `<Layout />` component to hide the toast if `display: true` is set in the the toast store. 
+
+:::caution
+
+You will need to use a **`setTimeout`** function in your `useEffect` hook. However, you will need to clear the `setTimeout` in your `useEffect` other wise this may lead to performance issues. See this **[article](https://felixgerschau.com/react-hooks-settimeout/)** by Felix Gerschau.
+
+:::
