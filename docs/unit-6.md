@@ -135,3 +135,96 @@ Toast.defaultProps = {
 export default Toast;
 
 ```
+
+
+## Adding our Toast to our Layout component
+
+As our `Toast` component can be used anywhere in the app we don't want to add it to individual page components but instead have it as part of our `Layout` component and update it using our global state. But first lets add it to our `Layout` component and lets also hard code the props just so we can see what the component looks like.
+
+``` jsx
+
+return (
+    <div className={styles.layout}>
+      <Header
+        className={styles.layout__header}
+        showMobileNav={showMobileNav}
+        setShowMobileNav={setShowMobileNav}
+      />
+      <Search className={styles.layout__search} />
+      <Nav className={styles.layout__nav} showMobileNav={showMobileNav} />
+      <main className={styles.layout__main}>
+        <div className={styles.layout__wrapper}>
+          {children}
+        </div>
+      </main>
+      {/* Added Toast component */}
+      <Toast
+        show
+        message="Test toast"
+        success
+      />
+    </div>
+  );
+
+```
+
+## Toast actions and reducer 
+
+Next we need to set up the actions that will show or hide our toast `showToast` and `hideToast` in `actions/toastActions.js`
+
+``` js
+
+import { createAction } from '@reduxjs/toolkit';
+
+export const showToast = createAction('SHOW_TOAST');
+export const hideToast = createAction('HIDE_TOAST');
+
+```
+
+After this we need to set up our `toastReducer` in `reducers/toastReducer.js`. We first need to set up our `initialState` then add the `showToast` to the builder. This will update our state to show our toast. And we also need to add our `hideToast` to the builder that will update the state to hide our toast.
+
+``` js
+
+import { createReducer } from '@reduxjs/toolkit';
+import { showToast, hideToast } from '../actions/toastActions';
+
+const initialState = {
+  toast: {
+    display: false,
+    message: '',
+    type: 'default',
+  },
+};
+
+const toastReducer = createReducer(initialState, (builder) => {
+  builder
+    .addCase(showToast, (state, action) => {
+      state.toast = { ...action.payload, display: true };
+    })
+    .addCase(hideToast, (state) => {
+      state.toast = { ...state, display: false };
+    });
+});
+
+export default toastReducer;
+
+```
+
+Lastly we need to add our new reducer to our `store` in `store.js`.
+
+``` js
+
+import { configureStore } from '@reduxjs/toolkit';
+import favoritesReducer from './reducers/favoritesReducer';
+import moviesReducer from './reducers/moviesReducer';
+import toastReducer from './reducers/toastReducer';
+
+export const store = configureStore({
+  reducer: {
+    favorites: favoritesReducer,
+    movies: moviesReducer,
+    toast: toastReducer,
+  },
+});
+
+```
