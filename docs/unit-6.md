@@ -359,6 +359,6 @@ It would also be good to hide the toast after 2 sections. You will need to add a
 
 :::caution
 
-You will need to use a **`setTimeout`** function in your `useEffect` hook. However, you will need to clear the `setTimeout` in your `useEffect` other wise this may lead to performance issues. See this **[article](https://felixgerschau.com/react-hooks-settimeout/)** by Felix Gerschau.
+You will need to use a **`setTimeout`** function in your `useEffect` hook. However, you will need to clear the `setTimeout` in your `useEffect` otherwise this may lead to performance issues. See this **[article](https://felixgerschau.com/react-hooks-settimeout/)** by Felix Gerschau.
 
 :::
