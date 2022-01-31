@@ -21,13 +21,14 @@ Before we get started we need to take a look at the `<MovieSection />` component
 
 ### Props
 
-| Prop                  | Type    | Description                                                                 |
-|-----------------------|---------|-----------------------------------------------------------------------------|
-|className              | string  | This allows a custom styles to be added to the component                    |
-|movieObj               | object  | Is the movie data object the component needs to display                     |
-|dropDown               | bool    | If true will change the movie description paragraph into a dropdown         |
-|removeFromFavoritesBtn | bool    | If true renders the favorite button  as the remove from favorites button    |
-|divider                | bool    | If true renders the divider at the bottom of the component                  |
+| Prop                  | Type    | Description                                                                     |
+|-----------------------|---------|---------------------------------------------------------------------------------|
+|className              | string  | This allows a custom styles to be added to the component                        |
+|movieObj               | object  | Is the movie data object the component needs to display                         |
+|dropDown               | bool    | If true will change the movie description paragraph into a dropdown             |
+|removeFromFavoritesBtn | bool    | If true renders the favorite button  as the remove from favorites button        |
+|showBackBtn            | bool    | Set to true by default but if set to false the back button will not be rendered |
+|divider                | bool    | If true renders the divider at the bottom of the component                      |
 
 As we want the `<MovieSection>` component to render as shown in the image bellow, we will need to add the `dropDown`, `removeFromFavoritesBtn` and `divider` props.
 

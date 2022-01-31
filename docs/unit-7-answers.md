@@ -26,19 +26,20 @@ import MovieSection from '../../organisms/movie-section/movie-section'; // Added
 
 ```
 
-Now all we need to do is render all of our movies in our favorites store, remember we have already ran a check to see if we don't have any movies in our store so we don't need to worry about that. To do this all we need to do is use the `.map` method on our `favorites` array that will render a `MovieSection` component for each movie in the favorites. We will also need to add our new props to the component and a key based on the `imdbID`.
+Now all we need to do is render all of our movies in our favorites store, remember we have already ran a check to see if we don't have any movies in our store so we don't need to worry about that. To do this all we need to do is use the `.map` method on our `favorites` array that will render a `MovieSection` component for each movie in the favorites. We will also need to add our new props to the component and a key based on the `imdbID`. We also only want show the back button on the first `MovieSection` component thats rendered, to this all we need to do is check the index of the favorite item we map over is equal to 0. If its not `showBackBtn` will be set to false.
 
 ``` jsx
 
 // If there are movies in the favorites store
 return (
   <div className={styles.favorites}>
-    {favorites.map((favorite) => (
+    {favorites.map((favorite, index) => (
       <MovieSection
         key={favorite.imdbID}
         movieObj={favorite}
         dropDown
         removeFromFavoritesBtn
+        showBackBtn={index === 0}
         divider
       />
     ))}
