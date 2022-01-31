@@ -205,3 +205,6 @@ return (
 It should look something like this. Remember you have a new set of props in `<MovieSection>` component explained in the MovieSection component section in this unit to help you with this.
 
 ![Favorites page screenshot](/img/unit-7/favorites-page.png)
+
+If you get stuck or get overwhelmed remember you can always get the answers for these tasks
+on the [unit-7-answers](/docs/unit-7-answers) page.
