@@ -65,4 +65,13 @@ Next all we need to do is add our state to both our `<InputWithLabel />` and `<S
 
 ```
 
+You can test this by entering a search into the `<InputWithLabel />` component, the search itself is not yet working but the input should update. This you can also test the `<SelectWithLabel />` component to see if that updates as well.
+
+
+## Setting up the searchReducer
+
+As you may have guessed as `<Search />` component is part of the `<Layout />` component we will need to set up are reducer. This is because
+
+As you may have guessed as it would be a good idea to abstract the search logic away from the `<Search />` component, the component will give use the input data but our reducer will handle the API request. 
+
 
