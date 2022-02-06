@@ -213,3 +213,54 @@ const validatedInput = (input) => {
 };
 
 ```
+
+## The handleSubmit function
+
+Now we need to start on the logic that handles our form submit. As previously mentioned when the form is submitted it will update our search store with a valid search or with an error, then we will clear the form and navigate to the `<SearchResults />` page component if not already on that page. 
+
+To do this all we need to do is add the following to our `handleSubmit`:
+- Prevent the form default submit, this will stop the page refreshing
+- Get our `valid`, `errorMessage` from our `validatedInput` function
+- If the search ins't valid we update our search store with the error and an empty query
+- Then we clear the  form
+- Lastly, we navigate to the search results page if we are not already are not already on it
+
+``` js
+
+// This will handle our form submit
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  // Run our input validation
+  const { valid, errorMessage } = validatedInput(inputValue);
+
+  // Validate input value, if not valid update search store
+  if (!valid) {
+    dispatch({
+      type: 'SET_SEARCH',
+      payload: {
+        currentSearch: {
+          isValidSearch: valid,
+          errorMessage,
+          query: '',
+        },
+      },
+    });
+  }
+
+  /**
+    * TODO - if valid search:
+    * - Make query string
+    * - Update search store
+    */
+
+  // clear the form
+  clearForm();
+
+  // If not already on the search page navigate to it
+  if (currentRoute !== '/search-results') {
+    navigate('/search-results');
+  }
+};
+
+```
