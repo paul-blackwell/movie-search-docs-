@@ -144,3 +144,36 @@ export const store = configureStore({
 });
 
 ```
+
+## Basic error handling in the `<Search />` component
+
+The `<Search />` component will need to check if the input is blank or has special characters. It will navigate to the `<SearchResults />` page component but the before it does the `<Search />` component will update the search store with the error. The first thing we need to do is import the following into our `<Search />` component. Note that the `containsSpecialChars` util function has been added to help us check if a string contains special characters. We also need to add our `useDispatch`, `useLocation` and `useNavigate` but these will be covered in the next section
+
+``` js
+
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux'; // Added
+import { useLocation, useNavigate } from 'react-router-dom'; // Added
+import { FiSearch } from 'react-icons/fi';
+import styles from './search.module.scss';
+import containsSpecialChars from '../../../utils/containsSpecialChars'; // Added
+import InputWithLabel from '../../molecules/input-with-label/input-with-label';
+import SelectWithLabel from '../../molecules/select-with-label/select-with-label';
+import ButtonPrimary from '../../atoms/button-primary/button-primary';
+import ButtonTertiary from '../../atoms/button-tertiary/button-tertiary';
+
+```
+
+Next we need to add our validatedInput input function, this will just return a object with the `valid` and `errorMessage` keys depending on if the input is valid or not.
+
+``` js
+
+// This will handle our input validation
+const validatedInput = (input) => {
+  if (input === '') return { valid: false, errorMessage: 'Please enter a movie' };
+  if (containsSpecialChars(input)) return { valid: false, errorMessage: 'Movie must not have special characters' };
+   return { valid: true, errorMessage: '' };
+};
+
+```
