@@ -145,9 +145,21 @@ export const store = configureStore({
 
 ```
 
+## Getting our current route
+
+Before we start on any of the big stuff lets go back to our `<Search />` component. We will need to start by getting our current route as we will need it for later. To do this all we need to do is get the pathname from the `useLocation` hook
+
+``` js
+
+// Get current route
+const currentRoute = useLocation().pathname;
+
+```
+
+
 ## Clearing the form inputs
 
-Before we start on any of the big stuff lets add our `clearForm` function, this is what  will clear our form for us when the form is submitted or the clear button is clicked. 
+We need a way of clearing our search, to this we can just add a `clearForm` function to the `<Search />` component, this is what will clear our form for us when the form is submitted or the clear button is clicked. 
 
 ``` js
 
