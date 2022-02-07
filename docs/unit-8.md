@@ -276,3 +276,318 @@ const handleSubmit = (e) => {
 };
 
 ```
+
+Our finished component should look like this:
+
+``` jsx
+
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { FiSearch } from 'react-icons/fi';
+import styles from './search.module.scss';
+import containsSpecialChars from '../../../utils/containsSpecialChars';
+import InputWithLabel from '../../molecules/input-with-label/input-with-label';
+import SelectWithLabel from '../../molecules/select-with-label/select-with-label';
+import ButtonPrimary from '../../atoms/button-primary/button-primary';
+import ButtonTertiary from '../../atoms/button-tertiary/button-tertiary';
+
+const Search = ({ className }) => {
+  // This will handle our input state and change
+  const [inputValue, setInputValue] = useState('');
+  const handleInputChange = (e) => setInputValue(e.target.value);
+
+  // This will handle our select state and change
+  const [selectValue, setSelectValue] = useState('movie');
+  const handleSelectChange = (e) => setSelectValue(e.target.value);
+
+  // Get current route
+  const currentRoute = useLocation().pathname;
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // This will clear our search form
+  const clearForm = () => {
+    setInputValue('');
+    setSelectValue('movie');
+  };
+
+  // This clearing our search when the clear button is clicked
+  const handleClear = () => clearForm();
+
+  // This will handle our input validation
+  const validatedInput = (input) => {
+    if (input === '') return { valid: false, errorMessage: 'Please enter a movie' };
+    if (containsSpecialChars(input)) return { valid: false, errorMessage: 'Movie must not have special characters' };
+    return { valid: true, errorMessage: '' };
+  };
+
+  // This will handle our form submit
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Run our input validation
+    const { valid, errorMessage } = validatedInput(inputValue);
+
+    // Validate input value, if not valid update search store
+    if (!valid) {
+      dispatch({
+        type: 'SET_SEARCH',
+        payload: {
+          currentSearch: {
+            isValidSearch: valid,
+            errorMessage,
+            query: '',
+          },
+        },
+      });
+    }
+
+    /**
+     * TODO - if valid search:
+     * - Make query string
+     * - Make request to the api
+     * - Update search store
+     * - Navigate to the Browse page if not a ready on that page
+     * - Clear the form
+     */
+
+    // clear the form
+    clearForm();
+
+    // If not already on the search page navigate to it
+    if (currentRoute !== '/search-results') {
+      navigate('/search-results');
+    }
+  };
+
+  return (
+    <form className={`${styles.search} ${className}`}>
+      <InputWithLabel
+        className={styles.search__input}
+        type="text"
+        placeholder="Search by title"
+        value={inputValue}
+        handleChange={handleInputChange}
+      >
+        <FiSearch className={styles.search__icon} />
+      </InputWithLabel>
+      <SelectWithLabel
+        className={styles.search__select}
+        label="Type:"
+        value={selectValue}
+        onChange={handleSelectChange}
+        options={[
+          { value: 'movie', name: 'Movie' },
+          { value: 'series', name: 'Series' },
+          { value: 'episode', name: 'Episode' },
+        ]}
+      />
+      <div className={styles['search__button-group']}>
+        <ButtonTertiary
+          className={styles.search__button}
+          onClick={handleClear}
+        >
+          Clear
+        </ButtonTertiary>
+        <ButtonPrimary type="submit" onClick={handleSubmit}>
+          Search
+        </ButtonPrimary>
+      </div>
+    </form>
+  );
+};
+
+Search.propTypes = {
+  className: PropTypes.string,
+};
+
+Search.defaultProps = {
+  className: '',
+};
+
+export default Search;
+
+```
+
+## The SearchResults page
+
+Now lets start working on the `<SearchResults />` page component. When the user navigates to this page we want to do the following:
+- Show error toast if the search is not valid
+- Show "Please enter a valid search" `<SecondaryHeading />` and `<ButtonBack />` if search is not valid
+- Show if isValidSearch is null we want to show an info toast as the user has navigated to the page without searching for anything
+- Show "Start searching for movies" `<SecondaryHeading />` and  `<ButtonBack />` if isValidSearch is null
+
+The first thing we need to do is import our  `useSelector` and `useDispatch` hooks.
+
+``` js
+
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux'; // Added 
+import ButtonBack from '../../atoms/button-back/button-back';
+import SecondaryHeading from '../../atoms/typography/secondary-heading/secondary-heading';
+
+```
+
+Now in our `<SearchResults />` component we need to get our current search store.
+
+``` js
+
+// Get search store
+const currentSearch = useSelector((state) => state.search.currentSearch);
+
+```
+
+Lets now add the code to show error toast if the search is not valid or show an info toast is the user did enter a search.
+
+``` js
+
+// If not a valid search show error toast
+const dispatch = useDispatch();
+if (!currentSearch.isValidSearch) {
+  dispatch({
+    type: 'SHOW_TOAST',
+    payload: {
+      display: true,
+      message: currentSearch.errorMessage,
+      type: 'error',
+    },
+  });
+}
+
+// User has navigated to the page and there is no data in currentSearch some info toast
+if (currentSearch.isValidSearch === null) {
+  dispatch({
+    type: 'SHOW_TOAST',
+    payload: {
+      display: true,
+      message: 'Search for movies using the form at the top of the page',
+      type: 'default',
+    },
+  });
+}
+
+```
+
+Next render a `<ButtonBack />` and `<SecondaryHeading />` depending on if the search is valid:
+
+``` jsx
+
+// User has navigated to the page and there is no data in currentSearch
+if (currentSearch.isValidSearch === null) {
+  return (
+    <div>
+      <ButtonBack to="/">
+        Back
+      </ButtonBack>
+      <SecondaryHeading>Start searching for movies</SecondaryHeading>
+    </div>
+  );
+}
+
+// User has navigated to the page and there is no data in currentSearch
+if (!currentSearch.isValidSearch) {
+  return (
+    <div>
+      <ButtonBack to="/">
+        Back
+      </ButtonBack>
+      <SecondaryHeading>Please enter a valid search</SecondaryHeading>
+    </div>
+  );
+}
+
+```
+
+Lastly lets just add some placeholder content if the search is valid.
+
+``` jsx
+
+return (
+  <div>
+    <ButtonBack to="/">
+      Back
+    </ButtonBack>
+    <SecondaryHeading>We could not find anything</SecondaryHeading>
+  </div>
+);
+
+```
+
+Our finished component should look like this:
+
+``` jsx
+
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import ButtonBack from '../../atoms/button-back/button-back';
+import SecondaryHeading from '../../atoms/typography/secondary-heading/secondary-heading';
+
+const SearchResults = () => {
+  // Get search store
+  const currentSearch = useSelector((state) => state.search.currentSearch);
+
+  // If not a valid search show error toast
+  const dispatch = useDispatch();
+  if (!currentSearch.isValidSearch) {
+    dispatch({
+      type: 'SHOW_TOAST',
+      payload: {
+        display: true,
+        message: currentSearch.errorMessage,
+        type: 'error',
+      },
+    });
+  }
+
+  // User has navigated to the page and there is no data in currentSearch some info toast
+  if (currentSearch.isValidSearch === null) {
+    dispatch({
+      type: 'SHOW_TOAST',
+      payload: {
+        display: true,
+        message: 'Search for movies using the form at the top of the page',
+        type: 'default',
+      },
+    });
+  }
+
+  // User has navigated to the page and there is no data in currentSearch
+  if (currentSearch.isValidSearch === null) {
+    return (
+      <div>
+        <ButtonBack to="/">
+          Back
+        </ButtonBack>
+        <SecondaryHeading>Start searching for movies</SecondaryHeading>
+      </div>
+    );
+  }
+
+  // User has navigated to the page and there is no data in currentSearch
+  if (!currentSearch.isValidSearch) {
+    return (
+      <div>
+        <ButtonBack to="/">
+          Back
+        </ButtonBack>
+        <SecondaryHeading>Please enter a valid search</SecondaryHeading>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <ButtonBack to="/">
+        Back
+      </ButtonBack>
+      <SecondaryHeading>We could not find anything</SecondaryHeading>
+    </div>
+  );
+};
+
+export default SearchResults;
+
+```
