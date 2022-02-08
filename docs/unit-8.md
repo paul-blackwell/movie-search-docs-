@@ -591,3 +591,11 @@ const SearchResults = () => {
 export default SearchResults;
 
 ```
+
+## Task
+
+In unit-9 we will be covering making our API request from the OMDd API and showing the movies in our `<SearchResults  />` page component. For now your task is to render a set of `<AddComponentName />` components on the `<SearchResults  />` page if the search is valid, however instead of using data from our search store (we will get this when we make our request to the  OMDd API) we will just use the default movies data from `data/default-movies.js` as placeholder data for now.
+
+
+If you get stuck or get overwhelmed remember you can always get the answers for these tasks
+on the [unit-8-answers](/docs/unit-8-answers) page.
