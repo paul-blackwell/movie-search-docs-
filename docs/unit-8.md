@@ -80,12 +80,11 @@ import { createAction } from '@reduxjs/toolkit';
 
 export const setSearch = createAction('SET_SEARCH');
 
-
 ```
 
 The only action we will need is our `setSearch` action. This is because we only need to set the search as the searchReducer will handle the rest (handling errors and making the APR request).
 
-Next lets add our `searchReducer.js` to the `reduces` folder. We need to start by setting up our `initialState`. This will be made up of two parts the `currentSearch` which is an object that contains `isValidSearch` a boolean, `errorMessage` which is a string and the `query` which is also a string but this is the query that will be send to the API. The `currentSearch` object is basically everything we need to know about the users search. However, the second part `results` which is an array will contain all of the data we get back from our API, but it needs to be set as an empty array as we have not yet made the API request.
+Next lets add our `searchReducer.js` to the `reduces` folder. We need to start by setting up our `initialState`. This will be made up of two parts the `currentSearch` which is an object that contains `isValidSearch` a boolean, `errorMessage` which is a string, `search` which will be the value of our input and lastly the `type` which will be the type of search (this comes from the movie type dropdown in the search form). The `currentSearch` object is basically everything we need to know about the users search. However, the second part `results` which is an array will contain all of the data we get back from our API, but it needs to be set as an empty array as we have not yet made the API request.
 
 For now we are only going to handle if the search is valid or not in our builder and update the state if there is an error. In unit-9 we will go on to add our API request to our `searchReducer` if  `currentSearch` is valid.
 
@@ -98,7 +97,8 @@ const initialState = {
   currentSearch: {
     isValidSearch: null,
     errorMessage: '',
-    query: '',
+    search: '',
+    type: '',
   },
   results: [],
 };
@@ -106,21 +106,26 @@ const initialState = {
 const searchReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(setSearch, (state, action) => {
-      const { isValidSearch, errorMessage, query } = action.payload.currentSearch;
+      const {
+        isValidSearch,
+      } = action.payload.currentSearch;
 
       // If not a valid search don't make API request but just return updated state
       if (!isValidSearch) {
-        state.currentSearch = {
-          isValidSearch,
-          errorMessage,
-          query: '',
-        };
+        state.currentSearch = { ...action.payload.currentSearch };
+        state.results = [];
+      }
+
+      // Is valid search
+      if (isValidSearch) {
+        state.currentSearch = { ...action.payload.currentSearch };
         state.results = [];
       }
     });
 });
 
 export default searchReducer;
+
 
 ```
 
@@ -145,14 +150,38 @@ export const store = configureStore({
 
 ```
 
+## Adding some imports to the `<Search />` component
+
+The first thing we need to do is import the following into our `<Search />` component. Note that the `containsSpecialChars` util function has been added to help us check if a string contains special characters. We also need to add our `useDispatch`, `useLocation` and `useNavigate` but these will be covered in the next section.
+
+``` js
+
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux'; // Added
+import { useLocation, useNavigate } from 'react-router-dom'; // Added
+import { FiSearch } from 'react-icons/fi';
+import styles from './search.module.scss';
+import containsSpecialChars from '../../../utils/containsSpecialChars'; // Added
+import InputWithLabel from '../../molecules/input-with-label/input-with-label';
+import SelectWithLabel from '../../molecules/select-with-label/select-with-label';
+import ButtonPrimary from '../../atoms/button-primary/button-primary';
+import ButtonTertiary from '../../atoms/button-tertiary/button-tertiary';
+
+```
+
+
 ## Getting our current route
 
-Before we start on any of the big stuff lets go back to our `<Search />` component. We will need to start by getting our current route as we will need it for later. To do this all we need to do is get the pathname from the `useLocation` hook
+Before we start on any of the big stuff we will need to start by getting our current route as we will need it for later. To do this all we need to do is get the pathname from the `useLocation` hook. It would also be a good idea to setup our `useDispatch` and `useNavigate` hooks as we are going to need them later.
 
 ``` js
 
 // Get current route
 const currentRoute = useLocation().pathname;
+
+const dispatch = useDispatch();
+const navigate = useNavigate();
 
 ```
 
@@ -195,25 +224,7 @@ onClick={handleClear}
 
 ## Basic error handling in the `<Search />` component
 
-The `<Search />` component will need to check if the input is blank or has special characters. It will navigate to the `<SearchResults />` page component but the before it does the `<Search />` component will update the search store with the error. The first thing we need to do is import the following into our `<Search />` component. Note that the `containsSpecialChars` util function has been added to help us check if a string contains special characters. We also need to add our `useDispatch`, `useLocation` and `useNavigate` but these will be covered in the next section.
-
-``` js
-
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux'; // Added
-import { useLocation, useNavigate } from 'react-router-dom'; // Added
-import { FiSearch } from 'react-icons/fi';
-import styles from './search.module.scss';
-import containsSpecialChars from '../../../utils/containsSpecialChars'; // Added
-import InputWithLabel from '../../molecules/input-with-label/input-with-label';
-import SelectWithLabel from '../../molecules/select-with-label/select-with-label';
-import ButtonPrimary from '../../atoms/button-primary/button-primary';
-import ButtonTertiary from '../../atoms/button-tertiary/button-tertiary';
-
-```
-
-Next we need to add our validatedInput input function, this will just return a object with the `valid` and `errorMessage` keys depending on if the input is valid or not.
+The `<Search />` component will need to check if the input is blank or has special characters. It will navigate to the `<SearchResults />` page component but the before it does the `<Search />` component will update the search store with the error. To do this we need to add our `validatedInput` function, this will just return a object with the `valid` and `errorMessage` keys depending on if the input is valid or not.
 
 ``` js
 
@@ -233,7 +244,8 @@ Now we need to start on the logic that handles our form submit. As previously me
 To do this all we need to do is add the following to our `handleSubmit`:
 - Prevent the form default submit, this will stop the page refreshing
 - Get our `valid`, `errorMessage` from our `validatedInput` function
-- If the search ins't valid we update our search store with the error and an empty query
+- If the search isn't valid we will update our search store with the error and set the search and type to empty strings.
+- If the search is valid we will set the search and type to our values from our `inputValue` and `selectValue`
 - Then we clear the  form
 - Lastly, we navigate to the search results page if we are not already are not already on it
 
@@ -254,17 +266,27 @@ const handleSubmit = (e) => {
         currentSearch: {
           isValidSearch: valid,
           errorMessage,
-          query: '',
+          search: '',
+          type: '',
         },
       },
     });
   }
 
-  /**
-    * TODO - if valid search:
-    * - Make query string
-    * - Update search store
-    */
+  // if valid search:
+  if (valid) {
+    dispatch({
+      type: 'SET_SEARCH',
+       payload: {
+        currentSearch: {
+          isValidSearch: valid,
+          errorMessage,
+          search: inputValue,
+          type: selectValue,
+        },
+      },
+    });
+  }
 
   // clear the form
   clearForm();
@@ -339,20 +361,27 @@ const Search = ({ className }) => {
           currentSearch: {
             isValidSearch: valid,
             errorMessage,
-            query: '',
+            search: '',
+            type: '',
           },
         },
       });
     }
 
-    /**
-     * TODO - if valid search:
-     * - Make query string
-     * - Make request to the api
-     * - Update search store
-     * - Navigate to the Browse page if not a ready on that page
-     * - Clear the form
-     */
+    // if valid search:
+    if (valid) {
+      dispatch({
+        type: 'SET_SEARCH',
+        payload: {
+          currentSearch: {
+            isValidSearch: valid,
+            errorMessage,
+            search: inputValue,
+            type: selectValue,
+          },
+        },
+      });
+    }
 
     // clear the form
     clearForm();
@@ -478,7 +507,7 @@ Next render a `<ButtonBack />` and `<SecondaryHeading />` depending on if the se
 // User has navigated to the page and there is no data in currentSearch
 if (currentSearch.isValidSearch === null) {
   return (
-    <div>
+    <div className={styles['search-results']}>
       <ButtonBack to="/">
         Back
       </ButtonBack>
@@ -490,7 +519,7 @@ if (currentSearch.isValidSearch === null) {
 // User has navigated to the page and there is no data in currentSearch
 if (!currentSearch.isValidSearch) {
   return (
-    <div>
+    <div className={styles['search-results']}>
       <ButtonBack to="/">
         Back
       </ButtonBack>
@@ -506,7 +535,7 @@ Lastly lets just add some placeholder content if the search is valid.
 ``` jsx
 
 return (
-  <div>
+  <div className={styles['search-results']}>
     <ButtonBack to="/">
       Back
     </ButtonBack>
@@ -522,8 +551,10 @@ Our finished component should look like this:
 
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import styles from './search-results.module.scss';
 import ButtonBack from '../../atoms/button-back/button-back';
 import SecondaryHeading from '../../atoms/typography/secondary-heading/secondary-heading';
+import Card from '../../molecules/card/card';
 
 const SearchResults = () => {
   // Get search store
@@ -557,7 +588,7 @@ const SearchResults = () => {
   // User has navigated to the page and there is no data in currentSearch
   if (currentSearch.isValidSearch === null) {
     return (
-      <div>
+      <div className={styles['search-results']}>
         <ButtonBack to="/">
           Back
         </ButtonBack>
@@ -569,7 +600,7 @@ const SearchResults = () => {
   // User has navigated to the page and there is no data in currentSearch
   if (!currentSearch.isValidSearch) {
     return (
-      <div>
+      <div className={styles['search-results']}>
         <ButtonBack to="/">
           Back
         </ButtonBack>
@@ -594,8 +625,41 @@ export default SearchResults;
 
 ## Task
 
-In unit-9 we will be covering making our API request from the OMDd API and showing the movies in our `<SearchResults  />` page component. For now your task is to render a set of `<AddComponentName />` components on the `<SearchResults  />` page if the search is valid, however instead of using data from our search store (we will get this when we make our request to the  OMDd API) we will just use the default movies data from `data/default-movies.js` as placeholder data for now.
+In unit-9 we will be covering making our API request from the OMDd API and showing the movies in our `<SearchResults  />` page component. For now your task is to render a set of `<Card />` components on the `<SearchResults  />` page if the search is valid, however instead of using data from our search store (we will get this when we make our request to the OMDd API) we will just use the default movies data from `data/default-movies.js` as placeholder data for now.
 
+Your rendered cards should look like this if the search is valid. 
+
+![Search results screenshot](/img/unit-8/search-results-screenshot.png)
+
+:::tip
+
+Do display the correct version of `<Card />` you will need to add the `basic` prop to it.
+
+:::
+
+Lastly, here is some starter code to help you in your quest.
+
+``` jsx
+
+// Is a valid search
+if (currentSearch.isValidSearch) {
+  return (
+    <div className={styles['search-results']}>
+      <ButtonBack to="/">
+        Back
+      </ButtonBack>
+      <SecondaryHeading className={styles['search-results__heading']}>
+        {/* Just a placeholder */}
+        This is what we found for
+        <span className={styles['search-results__heading-span']}>&quot;Alien&quot;</span>
+      </SecondaryHeading>
+      <div className={styles['search-results__cards']}>
+        {/* Render your cards here */}
+      </div>
+  );
+}
+
+```
 
 If you get stuck or get overwhelmed remember you can always get the answers for these tasks
 on the [unit-8-answers](/docs/unit-8-answers) page.
