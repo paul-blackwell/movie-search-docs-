@@ -631,7 +631,7 @@ Your rendered cards should look like this if the search is valid.
 
 ![Search results screenshot](/img/unit-8/search-results-screenshot.png)
 
-:::tip
+:::info
 
 Do display the correct version of `<Card />` you will need to add the `basic` prop to it.
 
